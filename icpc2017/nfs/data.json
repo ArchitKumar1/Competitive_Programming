@@ -1,0 +1,139 @@
+{
+
+
+"rasa_nlu_data": {
+
+
+"regex_features": [
+
+
+    {
+
+
+    "name": "greet",
+
+
+    "pattern": "hi[^\\s]*"
+
+
+    },
+
+
+],
+
+
+"entity_synonyms": [
+
+
+    {
+
+
+    "value": "Stock",
+
+
+    "synonyms": ["Security", "Securities", "Stock"]
+
+
+    }
+
+
+],
+
+
+"common_examples": [
+
+
+    {
+
+
+    "text": "hey",
+
+
+    "intent": "greet",
+
+
+    "entities": []
+
+
+    },
+
+
+    {
+
+
+    "text": "which stock to buy today",
+
+
+    "intent": "requestAnswer",
+
+
+    "entities": [
+
+
+         {
+
+
+        "start": 6,
+
+
+        "end": 11,
+
+
+        "value": "Stock",
+
+
+        "entity": "Instrument"
+
+
+        },
+
+
+        {
+
+
+        "start": 15,
+
+
+        "end": 18,
+
+
+        "value": "Buy",
+
+
+        "entity": "Direction"
+
+
+        },
+
+
+        {
+
+
+        "start": 19,
+
+
+        "end": 24,
+
+
+        "value": "Today",
+
+
+        "entity": "Time"
+
+
+        }
+
+
+    ]
+
+
+    }
+
+
+]
+
+
+}
+
+
+}
