@@ -47,10 +47,18 @@ const double eps = 1e-9;
 
 
 int main(){
-    FASTIO
+FASTIO
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
 #endif
     
+    int n;
+    cin >> n;
+    cout << n << endl;
+
+#ifndef ONLINE_JUDGE
+cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC * 1000 << " ms." << endl;
+#endif
+return 0;
 }
