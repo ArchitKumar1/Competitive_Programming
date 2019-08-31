@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+    #include<bits/stdc++.h>
 using namespace std;
 
 template<class T> ostream& operator<<(ostream &os,vector<T> V){os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";}
@@ -30,49 +30,50 @@ const LL linf = 2e18;
 const double eps = 1e-9;
 
 
-const int N = 1233;
 
-vector<int> G[N];
-vector<int> dp(N,0);
-vector<int> vals(N);
-int fans = INT_MIN;
 
-void dfs(int s,int par){
-    vector<int> allpaths;
-    for(int c : G[s]){
-        if(c!= par){
-            dfs(c,s);
-            allpaths.PB(dp[c]);
-        }
-    }
-    sort(ALL(allpaths));
-    reverse(ALL(allpaths));
-    if(allpaths.size() == 1){
-        dp[s] = vals[s] + allpaths[0];
-        fans = max(fans,dp[s]);
-    }else{
-         dp[s] = vals[s] + allpaths[0];
-         fans = max(fans,vals[s] + allpaths[0] + allpaths[1]);
-    }
-}
 int main(){
     FASTIO
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-    int n;
-    cin >> n;
-    forn(i,n-1){
-        int x,y;
-        cin >> x >> y; --x;--y;
-        G[x].PB(y);
-        G[y].PB(x);
-    }
-    for(int i=0;i<n;i++){
-        cin >> vals[i];
-    }
-    dfs(0,-1);
+
+   int n;
+   cin >> n;
+
+   vector<int> qq;
+    int fans = 0;
+   forn(i,n){
+       int x;
+       cin >> x;
+      int ans =0 ;
+       if(i<=1){
+           qq.push_back(x);
+           sort(ALL(qq));
+           ans++;
+       }else{
+           int pos = 0;
+           for(int c : qq){
+               if(c< x){
+                   pos++;
+               }
+           }
+           int l = pos;
+           int r = n - pos ;
+           //DEBUG2(l,r);
+           if(l >r){
+               ans += 2*r+1;
+           }else{
+               ans += 2*l +1;
+           }
+           qq.push_back(x);
+           sort(ALL(qq));
+       }
+       //DEBUG2(ans,qq);
+       
+      fans += ans;
+   }
     cout << fans << endl;
-    
+
 }

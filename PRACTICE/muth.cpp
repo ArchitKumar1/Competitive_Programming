@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+    #include<bits/stdc++.h>
 using namespace std;
 
 template<class T> ostream& operator<<(ostream &os,vector<T> V){os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";}
@@ -30,30 +30,26 @@ const LL linf = 2e18;
 const double eps = 1e-9;
 
 
-const int N = 1233;
+const int N = 1000;
+int g[N][N];
+ int n;
+int ans = 0;
 
-vector<int> G[N];
-vector<int> dp(N,0);
-vector<int> vals(N);
-int fans = INT_MIN;
-
-void dfs(int s,int par){
-    vector<int> allpaths;
-    for(int c : G[s]){
-        if(c!= par){
-            dfs(c,s);
-            allpaths.PB(dp[c]);
-        }
+bool safe(int i,int j){
+    return i>=0 && j>=0 && i<n && j<n;
+};
+int fans = 0;
+void dfs(int i,int j){
+    if(!safe(i,j)) return ;
+    if(g[i][j] == 1){
+        ans ++;
+        g[i][j] = 0;
+        dfs(i+1,j);
+        dfs(i-1,j);
+        dfs(i,j-1);
+        dfs(i,j+1);
     }
-    sort(ALL(allpaths));
-    reverse(ALL(allpaths));
-    if(allpaths.size() == 1){
-        dp[s] = vals[s] + allpaths[0];
-        fans = max(fans,dp[s]);
-    }else{
-         dp[s] = vals[s] + allpaths[0];
-         fans = max(fans,vals[s] + allpaths[0] + allpaths[1]);
-    }
+    
 }
 int main(){
     FASTIO
@@ -61,18 +57,18 @@ int main(){
     freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-    int n;
+
+  
     cin >> n;
-    forn(i,n-1){
-        int x,y;
-        cin >> x >> y; --x;--y;
-        G[x].PB(y);
-        G[y].PB(x);
+    forn(i,n) forn(j,n) cin >> g[i][j];
+
+    forn(i,n) forn(j,n){
+        if(g[i][j] == 1){
+            ans = 0;
+            dfs(i,j);
+            
+            fans = max(fans,ans);
+        }
     }
-    for(int i=0;i<n;i++){
-        cin >> vals[i];
-    }
-    dfs(0,-1);
     cout << fans << endl;
-    
 }

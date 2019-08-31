@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+#include<stdio.h>
+#include <unistd.h>
 template<class T> ostream& operator<<(ostream &os,vector<T> V){os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";}
 template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){return os<<"("<<P.first<<","<<P.second<<")";}
 #define DEBUG1(x) cout  << '>' << " " << #x << ':' << " " <<  x << endl;
@@ -29,31 +30,29 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-
-const int N = 1233;
-
-vector<int> G[N];
-vector<int> dp(N,0);
-vector<int> vals(N);
+VVI g;
+VI in,out,val;
+VPII max2;
 int fans = INT_MIN;
 
-void dfs(int s,int par){
-    vector<int> allpaths;
-    for(int c : G[s]){
-        if(c!= par){
-            dfs(c,s);
-            allpaths.PB(dp[c]);
-        }
+void dfs1(int s,int par){
+    int m = 0;
+    vector<int> all()
+    for(int c : g[s]){
+        if(c == par) continue;
+        dfs1(c,s);
+        m = max(m,in[c]);
     }
-    sort(ALL(allpaths));
-    reverse(ALL(allpaths));
-    if(allpaths.size() == 1){
-        dp[s] = vals[s] + allpaths[0];
-        fans = max(fans,dp[s]);
-    }else{
-         dp[s] = vals[s] + allpaths[0];
-         fans = max(fans,vals[s] + allpaths[0] + allpaths[1]);
-    }
+    in[s] = val[s] + m; 
+}
+
+void dfs2(int s,int par){
+    
+    for(int c : g[s]){
+        if(c == par) continue;
+        dfs2(c,s);
+        m = max(m,in[c]);
+    } 
 }
 int main(){
     FASTIO
@@ -61,18 +60,22 @@ int main(){
     freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
+
     int n;
     cin >> n;
-    forn(i,n-1){
-        int x,y;
-        cin >> x >> y; --x;--y;
-        G[x].PB(y);
-        G[y].PB(x);
+    g.resize(n);
+    in.resize(n);
+    out.resize(n);
+    val.resize(n);
+    max2.resize(n);
+    forn(i,n) cin >> val[i];
+    forn(i,n-1) {
+        int x,y; cin >> x>> y; --x;--y; g[x].PB(y) ;G[y].PB(x);
     }
-    for(int i=0;i<n;i++){
-        cin >> vals[i];
-    }
-    dfs(0,-1);
-    cout << fans << endl;
-    
+    dfs1(0,-1);
+    dfs2(0,-1);
+    cout << fans  << endl;
+    cout << "OK";
+
+
 }

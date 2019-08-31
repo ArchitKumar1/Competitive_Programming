@@ -29,12 +29,8 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-
-double solve(string s){
-    int n = s.length();
+void splitter(string s,vector<string> &ans){
     stack<char> st;
-    vector<string> temp;
-    
     string base = "";
     for(char c : s){
         if(c == '('){
@@ -44,24 +40,30 @@ double solve(string s){
             st.pop();
             base += ')';
             if(st.empty()){
-                temp.push_back(base);
+                ans.push_back(base);
                 base = "";
             }
         }
     }
-    int ans = 0;
-    if(temp.size() ==0){
-        return 0.5;
-    }else{
-        for(string c : temp){
-            c.erase(c.size()-1,1);
-            c.erase(0,1);
-            ans += 2 * solve(c);
-        }
-        return ans;
-        
+}
+int solve(string s){
+    int n = s.length();
+    cout << s << endl;
+    if(s == "()"){
+        return 1;
     }
-    
+    vector<string> base;
+    splitter(s,base);
+    if(base.size() == 1){
+        s.erase(0,1);
+        s.erase(s.size()-1,1);
+        return 2 * (solve(s));
+    }
+    int ans = 0;
+    for(string c : base){
+        ans +=  solve(c);
+    }
+    return ans;
 }
 
 int main(){

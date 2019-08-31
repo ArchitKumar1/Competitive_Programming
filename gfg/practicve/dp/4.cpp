@@ -29,50 +29,72 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-
-const int N = 1233;
-
-vector<int> G[N];
-vector<int> dp(N,0);
-vector<int> vals(N);
-int fans = INT_MIN;
-
-void dfs(int s,int par){
-    vector<int> allpaths;
-    for(int c : G[s]){
-        if(c!= par){
-            dfs(c,s);
-            allpaths.PB(dp[c]);
-        }
+struct edge{
+    int u,v,w;
+    bool operator < (const edge &a ){
+        return w < a.w;
     }
-    sort(ALL(allpaths));
-    reverse(ALL(allpaths));
-    if(allpaths.size() == 1){
-        dp[s] = vals[s] + allpaths[0];
-        fans = max(fans,dp[s]);
-    }else{
-         dp[s] = vals[s] + allpaths[0];
-         fans = max(fans,vals[s] + allpaths[0] + allpaths[1]);
-    }
-}
+};
+
+
+vector<edge> all;
+vector<int> dist,path;
+
 int main(){
     FASTIO
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
+
     int n;
     cin >> n;
-    forn(i,n-1){
-        int x,y;
-        cin >> x >> y; --x;--y;
-        G[x].PB(y);
-        G[y].PB(x);
+    int m;
+    cin >> m;
+    int s,d;
+    cin >>s >> d;
+    --s;--d;
+    forn(i,m){
+        int x,y,z;
+        cin >> x>> y >> z;
+        --x;--y;
+        all.PB({x,y,z});
     }
-    for(int i=0;i<n;i++){
-        cin >> vals[i];
+
+    dist.assign(n,inf);
+    path.assign(n,0);
+    dist[s] = 0;
+    for(;;){
+        bool any = 0;
+        for(auto e : all){
+            int u = e.u;
+            int v = e.v;
+            int w = e.w;
+            if(dist[u]!= inf){               
+                if(dist[v] > dist[u] + w){
+                    dist[v]  =dist[u] + w;
+                    path[v] = u;
+                    DEBUG3(u,v,path[v]);
+                    any = 1;
+                }
+            }
+        }
+        if(!any) break;
     }
-    dfs(0,-1);
-    cout << fans << endl;
     
+    cout << dist[d] << endl;
+    for(int i=0;i<n;i++){
+        DEBUG3(i+1,dist[i],path[i]);
+        
+    }
+    vector<int> path;
+    for(int i = d;i != s;i = path[i]){
+        path.PB(i + 1);
+    }
+    path.PB(s+1);
+    reverse(ALL(path));
+    cout << path;
+
+
+
 }

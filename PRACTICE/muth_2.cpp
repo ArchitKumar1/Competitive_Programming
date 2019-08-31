@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+    #include<bits/stdc++.h>
 using namespace std;
 
 template<class T> ostream& operator<<(ostream &os,vector<T> V){os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";}
@@ -30,29 +30,29 @@ const LL linf = 2e18;
 const double eps = 1e-9;
 
 
-const int N = 1233;
+const int N = 100;
+int par[N],size[N];
 
-vector<int> G[N];
-vector<int> dp(N,0);
-vector<int> vals(N);
-int fans = INT_MIN;
+void make(int i){
+    par[i] = i;
+    size[i] = 1;
+}
 
-void dfs(int s,int par){
-    vector<int> allpaths;
-    for(int c : G[s]){
-        if(c!= par){
-            dfs(c,s);
-            allpaths.PB(dp[c]);
-        }
-    }
-    sort(ALL(allpaths));
-    reverse(ALL(allpaths));
-    if(allpaths.size() == 1){
-        dp[s] = vals[s] + allpaths[0];
-        fans = max(fans,dp[s]);
+int find(int v){
+    if(par[v] == v){
+        return v;
     }else{
-         dp[s] = vals[s] + allpaths[0];
-         fans = max(fans,vals[s] + allpaths[0] + allpaths[1]);
+        return par[v]  = find(par[v]);
+    }
+}
+
+void merge(int a,int b){
+    a = find(a);
+    b = find(b);
+    if(a!=b){
+        if(size[a] < size[b]) swap(a,b);
+        par[b] = a;
+        size[a]+= size[b];
     }
 }
 int main(){
@@ -61,18 +61,27 @@ int main(){
     freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
+
+  
     int n;
     cin >> n;
-    forn(i,n-1){
-        int x,y;
-        cin >> x >> y; --x;--y;
-        G[x].PB(y);
-        G[y].PB(x);
-    }
     for(int i=0;i<n;i++){
-        cin >> vals[i];
+        make(i);
     }
-    dfs(0,-1);
-    cout << fans << endl;
-    
+    int q;
+    cin >> q;
+    while(q--){
+
+        int x,y;
+        cin >> x >> y;
+        merge(x,y);
+    }
+    int ans = 0;
+    for(int i=0;i<n;i++){
+        ans = max(ans,size[find(i)]);
+    }
+    forn(i,n){
+        DEBUG3(i,find(i),size[find(i)]);
+    }
+    cout << ans << endl;
 }
