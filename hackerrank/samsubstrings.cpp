@@ -44,30 +44,10 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-const int max_p = 100 + 5;
-const int max_c = 10;
+const LL N = 2e5+ 5;
 
-int dp[max_p][1024];
-vector<int> caps[max_p];
-int allmask;
+LL ntimes[N];
 
-
-int solve(int mask,int i){
-    if(mask == allmask){
-        return 1;
-    }
-    if(i > 100) return 0;
-    int ways = solve(mask,i+1);
-    int size = caps[i].size();
-    for(int j= 0;j<size;j++){
-        if(mask & ( 1 << caps[i][j])) continue;
-        else{
-            ways+= solve(mask | (1 << caps[i][j]),i+1);
-            ways%= mod;
-        }
-    }
-    return ways;
-}
 int main(){
 FASTIO
 #ifndef ONLINE_JUDGE
@@ -75,7 +55,26 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
     
-    
-    
+    ntimes[0] = 0;
+    for(LL i=0;i<N;i++){
+        ntimes[i] = ntimes[i-1] *10 + 1;
+        ntimes[i]%= mod;
+    }
+    string s;
+    cin >> s;
+    LL n = s.length();
+    LL fans = 0;
+    for(LL i=0;i<n;i++){
+        LL cc = s[i] - '0';
+        LL temp = cc * ntimes[n-i -1];
+        //trace(temp);
+        temp%= mod;
+        temp*= (i+1);
+        //trace(temp);
+        temp%= mod;
+        fans+= temp;
+        fans%= mod;
+    }
+    cout <<fans << endl;
 
 }

@@ -44,30 +44,7 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-const int max_p = 100 + 5;
-const int max_c = 10;
 
-int dp[max_p][1024];
-vector<int> caps[max_p];
-int allmask;
-
-
-int solve(int mask,int i){
-    if(mask == allmask){
-        return 1;
-    }
-    if(i > 100) return 0;
-    int ways = solve(mask,i+1);
-    int size = caps[i].size();
-    for(int j= 0;j<size;j++){
-        if(mask & ( 1 << caps[i][j])) continue;
-        else{
-            ways+= solve(mask | (1 << caps[i][j]),i+1);
-            ways%= mod;
-        }
-    }
-    return ways;
-}
 int main(){
 FASTIO
 #ifndef ONLINE_JUDGE
@@ -76,6 +53,34 @@ freopen("output.txt", "w", stdout);
 #endif
     
     
+    int n;
+    cin >> n;
+    int W;
+    cin >> W;
+    vector<int> prices(n,0),weight(n,0);
+    forn(i,n) cin >> prices[i];
+    forn(i,n) cin >> weight[i];
     
+    int dp[n+1][W+1];
 
+    for(int i=0;i<n;i++){
+        for(int j = 0;j<=W;j++){
+            if(i == 0 || j == 0){
+                dp[i][j] = 0;
+            }else{
+                if(j - weight[i]){
+                    dp[i][j] = max(dp[i-1][j] ,dp[i-1][j-weight[i]] + prices[i]);
+                }else{
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+    }
+    cout << dp[n][W] << endl;
+    for(int i=0;i<n;i++){
+        for(int j= 0 ;j<=W;j++){
+            cout << dp[i][j] << " ";
+        }cout << endl;
+    }
+    cout << "OK" << endl;
 }

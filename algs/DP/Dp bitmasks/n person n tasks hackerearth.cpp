@@ -44,29 +44,18 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-const int max_p = 100 + 5;
-const int max_c = 10;
+int cost[4][4];
 
-int dp[max_p][1024];
-vector<int> caps[max_p];
-int allmask;
-
-
-int solve(int mask,int i){
-    if(mask == allmask){
-        return 1;
+vector<int> dp(16,inf);
+string bin(int i){
+    string ans = "";
+    while(i){
+        ans += (i%2 ? "1" : "0");
+        i >>= 1;
     }
-    if(i > 100) return 0;
-    int ways = solve(mask,i+1);
-    int size = caps[i].size();
-    for(int j= 0;j<size;j++){
-        if(mask & ( 1 << caps[i][j])) continue;
-        else{
-            ways+= solve(mask | (1 << caps[i][j]),i+1);
-            ways%= mod;
-        }
-    }
-    return ways;
+
+    reverse(ALL(ans));
+    return ans;
 }
 int main(){
 FASTIO
@@ -75,7 +64,24 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
     
-    
-    
+    forn(i,4)forn(j,4) cin >> cost[i][j];
+
+    dp[0]=  0;
+    for(int i=0;i<16;i++){
+        int x = __builtin_popcount(i);
+        for(int j=0;j<4;j++){
+            if( not(i & (1 << j))){
+                //trace(bin(i),bin(j),dp[i | (1 << j)],dp[i],dp[i] + cost[x][j]);
+                dp[i | (1 << j)] = min(dp[i | (1 << j)],dp[i] + cost[x][j]);
+                
+            }
+        }
+    }
+    cout << dp[15] << endl;
+
+    // 1 2 3 78888
+    // 2 3 4 45555
+    // 4 5 6 25552
+    // 3 3 4 100000
 
 }

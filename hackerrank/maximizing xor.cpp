@@ -44,30 +44,8 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-const int max_p = 100 + 5;
-const int max_c = 10;
-
-int dp[max_p][1024];
-vector<int> caps[max_p];
-int allmask;
 
 
-int solve(int mask,int i){
-    if(mask == allmask){
-        return 1;
-    }
-    if(i > 100) return 0;
-    int ways = solve(mask,i+1);
-    int size = caps[i].size();
-    for(int j= 0;j<size;j++){
-        if(mask & ( 1 << caps[i][j])) continue;
-        else{
-            ways+= solve(mask | (1 << caps[i][j]),i+1);
-            ways%= mod;
-        }
-    }
-    return ways;
-}
 int main(){
 FASTIO
 #ifndef ONLINE_JUDGE
@@ -76,6 +54,16 @@ freopen("output.txt", "w", stdout);
 #endif
     
     
-    
+    int a,b;
+    cin >> a >> b;
+    int n = 32;
+    int ans = 0 ;
+    for(int i=n;i>=0;i--){
+        if( (a & ( 1 << i)) ^ (b & (1 << i))){
+            ans = pow(2,i+1) - 1;
+            break;
+        }
+    }
+    cout << ans ;
 
 }
