@@ -53,7 +53,26 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
     
-    
-    
+    int n;
+    cin >> n;
+    int m;
+    cin >> m;
+    vector<int> arr(n);
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    int dp[n];
+    fill(dp,dp+n,0);
+    set<int> all;
+    for(int i = n-1;i>=0;i--){
+        all.insert(arr[i]);
+        dp[i] = all.size();
+    }
+    while(m--){
+        int l;
+        cin >> l;
+        cout << dp[l-1] << endl;
+    }
+
 
 }
