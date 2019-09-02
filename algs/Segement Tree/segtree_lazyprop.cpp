@@ -50,27 +50,6 @@ void build(int s,int e,int index){
     tree[index] = tree[2*index] + tree[2*index+1];
 }
 
-void update(int s,int e,int index,int pos,int val){
-    if(pos < s || pos >e ) return ;
-    if(s ==pos && pos == e){
-        arr[pos] = val;
-        tree[index] =val;
-        return;
-    }
-    int mid = (s +e ) >> 1;
-    update(s,mid,2*index,pos,val);
-    update(mid+1,e,2*index+1,pos,val);
-    tree[index] = tree[2*index] + tree[2*index+ 1];
-}
-
-int query(int s,int e,int index,int ss,int ee){
-    if(s > ee || e < ss) return 0;
-    if( s >=ss && e <=ee) return tree[index];
-    int mid = (s+e) >>1;
-    int l = query(s,mid,2*index,ss,ee);
-    int r = query(mid+1,e,2*index+1,ss,ee);
-    return l+r;
-}
 
 void updaterange(int s,int e,int index,int ss,int ee,int val){
     if(lazy[index] != 0){
@@ -118,7 +97,10 @@ int queryrange(int s,int e,int index,int ss,int ee){
             
             
 int main(){
-    
+#ifndef ONLINE_JUDGE
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
+#endif      
     int n;
     cin >> n;
     for(int i=0;i<n;i++) cin >> arr[i];
@@ -140,6 +122,8 @@ int main(){
     }cout << endl;
     cout << queryrange(s,e,index,0,3) << endl;
     updaterange(s,e,index,0,1,4);
+    cout << queryrange(s,e,index,0,3) << endl;
+    updaterange(s,e,index,2,3,-4);
     cout << queryrange(s,e,index,0,3) << endl;
 
     return 0;

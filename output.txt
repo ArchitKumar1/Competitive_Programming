@@ -1,1 +1,12 @@
-1 2 2 3 4 5 6 7 8 8 
+start[l] : 4 | endd[l] : 4 | start[r] : 3 | endd[r] : 4
+fans1 : 9 | fans2 : 17
+24
+start[l] : 1 | endd[l] : 2 | start[r] : 4 | endd[r] : 4
+fans1 : 18 | fans2 : 9
+27
+start[l] : 2 | endd[l] : 2 | start[r] : 0 | endd[r] : 4
+fans1 : 13 | fans2 : 38
+43
+start[l] : 3 | endd[l] : 4 | start[r] : 3 | endd[r] : 4
+fans1 : 19 | fans2 : 19
+0
