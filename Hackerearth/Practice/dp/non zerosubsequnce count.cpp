@@ -47,10 +47,13 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
+const int N = 123456;
+const int K = 32;
+
+int dp[K][N];
+int arr[N];
 
 int main(){
-
-    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
@@ -58,27 +61,36 @@ freopen("output.txt", "w", stdout);
     
     int n;
     cin >> n;
-    int arr[n];
-    forn(i,n) cin >>arr[i];
-    unordered_map<int,int> m1;
-    for(int c :arr){
-        m1[c]++;
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
     }
-    priority_queue<pair<int,int>> pq;
-    for(auto p : m1){
-        pq.push({p.second,p.first});
-    }
-    while(pq.size()){
-        PII temp = pq.top();pq.pop();
-        for(int i = 0;i<temp.first ;i++){
-            cout << temp.second << " ";
+    int k;
+    cin >> k;
+    dp[1][n-1] = 1;
+    for(int i = 1;i<=30;i++){
+        
+        for(int j=n-1 - i +1;j>=0;j--){
+            if(arr[j]!= 0){
+                if(i == 1){
+                    dp[i][j] = dp[i][j+1] + 1;
+                }else{
+                    dp[i][j] = dp[i][j+1] + dp[i-1][j+1];
+                }
+            }else{
+                if(i == 1){
+                    dp[i][j] = dp[i][j+1] + 1;
+                }else{
+                    dp[i][j] = dp[i][j+1];
+                }
+            }
         }
     }
-    
-    
-    
-    
-    
-
+    for(int i=0;i<32;i++){
+        for(int j = 0;j<n;j++){
+            cout << dp[i][j] << "  ";
+        }
+        cout << endl;
+    }
+    cout << dp[0][k-1] << endl;
     return 0;
 }

@@ -47,10 +47,27 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
+const int N = 12345;
 
+vector<vector<int>> G(N);
+vector<int>colors(N);
+
+int fans = 0;
+void dfs(int s,int par){
+
+
+    for(int c : G[s]){
+        if(c !=par){
+            if(colors[c] != colors[s] ){
+               // trace(c,s,colors[c],colors[s]);
+                fans++;
+            }
+            dfs(c,s);
+            
+        }
+    }
+}
 int main(){
-
-    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
@@ -58,27 +75,19 @@ freopen("output.txt", "w", stdout);
     
     int n;
     cin >> n;
-    int arr[n];
-    forn(i,n) cin >>arr[i];
-    unordered_map<int,int> m1;
-    for(int c :arr){
-        m1[c]++;
+    for(int i=2;i<=n;i++){
+        int x;
+        cin >> x;
+        
+        G[x].PB(i);
+        G[i].PB(x);
+        
+        
     }
-    priority_queue<pair<int,int>> pq;
-    for(auto p : m1){
-        pq.push({p.second,p.first});
+    forn(i,n){
+        cin >> colors[i+1];
     }
-    while(pq.size()){
-        PII temp = pq.top();pq.pop();
-        for(int i = 0;i<temp.first ;i++){
-            cout << temp.second << " ";
-        }
-    }
-    
-    
-    
-    
-    
-
+    dfs(1,0);
+    cout << fans + 1 << endl;
     return 0;
 }

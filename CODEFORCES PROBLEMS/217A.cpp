@@ -47,38 +47,55 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
+vector<pair<int,int>> all;
 
+const int N = 123;
+int par[N],size[N];
+
+void make(int v){
+    par[v] = v;
+    size[v] = 1;
+}
+int find(int v){
+    if(v == par[v]) return v;
+    else return par[v]= find(par[v]);
+}
+void merge(int a,int b){
+    a = find(a);
+    b = find(b);
+    if(a!=b){
+        if(size[a] > size[b]) swap(a,b);
+        par[b] = a;
+        size[a] += size[b];
+    }
+}
 int main(){
-
-    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    int n;
+    int n ;
     cin >> n;
-    int arr[n];
-    forn(i,n) cin >>arr[i];
-    unordered_map<int,int> m1;
-    for(int c :arr){
-        m1[c]++;
+    all.resize(n);
+    forn(i,n){
+        make(i);
+        cin >> all[i].F >> all[i].S; 
     }
-    priority_queue<pair<int,int>> pq;
-    for(auto p : m1){
-        pq.push({p.second,p.first});
-    }
-    while(pq.size()){
-        PII temp = pq.top();pq.pop();
-        for(int i = 0;i<temp.first ;i++){
-            cout << temp.second << " ";
+    forn(i,n){
+        for(int j = i+1;j<n;j++){
+            if(all[i].F == all[j].F || all[i].S== all[j].S){
+                merge(i,j);
+            }
         }
     }
-    
-    
-    
-    
-    
+    int ans =0 ;
+    for(int i=0;i<n;i++){
+        if(find(i) == i){
+            ans++;
+        }
+    }
+    cout << ans -1;
 
     return 0;
 }

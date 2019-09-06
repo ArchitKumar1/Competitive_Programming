@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+    #include<bits/stdc++.h>
 using namespace std;
 
 template<class T> ostream& operator<<(ostream &os,vector<T> V){
@@ -45,40 +45,41 @@ const LL linf = 2e18;
 const double eps = 1e-9;
 
 
-/////////////////////////////
-
-
 int main(){
-
-    
+FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
-#endif      
+#endif
     
-    int n;
-    cin >> n;
-    int arr[n];
-    forn(i,n) cin >>arr[i];
-    unordered_map<int,int> m1;
-    for(int c :arr){
-        m1[c]++;
-    }
-    priority_queue<pair<int,int>> pq;
-    for(auto p : m1){
-        pq.push({p.second,p.first});
-    }
-    while(pq.size()){
-        PII temp = pq.top();pq.pop();
-        for(int i = 0;i<temp.first ;i++){
-            cout << temp.second << " ";
+    int n,d,h;
+    cin >> n >> d >> h;
+    bool ans = !(2*h < d);
+    if(ans == 0 ){
+        cout << "-1" << endl;
+    }else{
+        int root = 1;
+        int end = n;
+        int l = d - h;
+        int r = h;
+        int a = 1;
+        int b = 2;
+        while(l--){
+            cout << a << " "<< b << endl;
+            a = b;
+            b = b+1;
+        }
+        a = 1;
+        while(r--){
+            cout << a <<  " " << b << endl;
+            a = b;
+            b = b + 1;
+        }
+        a = 1;
+        while(b!= n+1){
+            cout << a <<  " "<< b << endl;
+            b = b+1;
         }
     }
     
-    
-    
-    
-    
-
-    return 0;
 }

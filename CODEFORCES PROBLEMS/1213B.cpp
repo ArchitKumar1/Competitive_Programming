@@ -45,40 +45,36 @@ const LL linf = 2e18;
 const double eps = 1e-9;
 
 
-/////////////////////////////
-
 
 int main(){
-
-    
+FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
-#endif      
-    
-    int n;
-    cin >> n;
-    int arr[n];
-    forn(i,n) cin >>arr[i];
-    unordered_map<int,int> m1;
-    for(int c :arr){
-        m1[c]++;
-    }
-    priority_queue<pair<int,int>> pq;
-    for(auto p : m1){
-        pq.push({p.second,p.first});
-    }
-    while(pq.size()){
-        PII temp = pq.top();pq.pop();
-        for(int i = 0;i<temp.first ;i++){
-            cout << temp.second << " ";
+#endif
+    TC{
+        int n;
+        cin >> n;
+        int arr[n];
+        forn(i,n) cin >> arr[i];
+        int dp[n];
+        dp[n-1] = arr[n-1];
+        for(int i=n-2;i>=0;i--){
+            dp[i] = min(arr[i],dp[i+1]);
         }
+        int ans = 0;
+        for(int i=0;i<n;i++){
+            if(i+1 < n){
+                if(dp[i+1] < arr[i]){
+                   // trace(i,dp[i+1],arr[i]);
+                    ans++;
+                }
+                
+            }
+        }
+        cout << ans << endl;
     }
     
     
     
-    
-    
-
-    return 0;
 }

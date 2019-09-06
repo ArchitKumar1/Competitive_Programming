@@ -58,27 +58,9 @@ freopen("output.txt", "w", stdout);
     
     int n;
     cin >> n;
-    int arr[n];
-    forn(i,n) cin >>arr[i];
-    unordered_map<int,int> m1;
-    for(int c :arr){
-        m1[c]++;
-    }
-    priority_queue<pair<int,int>> pq;
-    for(auto p : m1){
-        pq.push({p.second,p.first});
-    }
-    while(pq.size()){
-        PII temp = pq.top();pq.pop();
-        for(int i = 0;i<temp.first ;i++){
-            cout << temp.second << " ";
-        }
-    }
     
-    
-    
-    
-    
+    int fact;
 
+    
     return 0;
 }
