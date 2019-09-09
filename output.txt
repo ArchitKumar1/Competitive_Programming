@@ -1,3 +1,4 @@
-1
-0
-0
+k : 1 | a : 3 | c : 2 | rev : 1 | min(a,rev) : 1
+k : 2 | a : 3 | c : 2 | rev : 1 | min(a,rev) : 1
+a*b*c : 12 | 2*tans : 4
+8

@@ -48,7 +48,7 @@ const double eps = 1e-9;
 /////////////////////////////
  
  
-const LL N = 350;
+const LL N = 1000;
 LL arr[N];
 LL dptrue[N][N];
 LL dpfalse[N][N];
@@ -69,7 +69,6 @@ freopen("output.txt", "w", stdout);
         arr[i] = a[i] - '0';
     }
     LL n = a.length();
- 
     
     for(LL i=0;i<n;i++){
         dptrue[i][i] = arr[i];
@@ -115,19 +114,20 @@ freopen("output.txt", "w", stdout);
     //     }
     //     cout << endl;
     // }
-    LL q;
-    cin >> q;
-    while(q--){
-        LL x,y;
-        cin >> x >> y;
-        --x;--y;
-        string temp ;
-        cin >> temp;
-        if(temp == "true"){
-            cout << dptrue[x][y] << endl;
-        }else{
-            cout << dpfalse[x][y] << endl;
-        }
-    }
+    // LL q;
+    // cin >> q;
+    // while(q--){
+    //     LL x,y;
+    //     cin >> x >> y;
+    //     --x;--y;
+    //     string temp ;
+    //     cin >> temp;
+    //     if(temp == "true"){
+    //         cout << dptrue[x][y] << endl;
+    //     }else{
+    //         cout << dpfalse[x][y] << endl;
+    //     }
+    // }
+    cout << dptrue[0][n-1] <<  " "  << dpfalse[0][n-1];
     return 0;
 }
