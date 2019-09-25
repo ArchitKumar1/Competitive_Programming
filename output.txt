@@ -1,21 +1,10 @@
-0
-t :  00100
-l : 3 | pos : 3 | r : 3
-0 0 1 0 0 
-0 0 1 0 0 
-1
-t :  00101
-l : 5 | pos : 5 | r : 5
-0 0 1 0 1 
-0 0 1 0 1 
-1
-t :  00111
-l : 3 | pos : 4 | r : 5
-0 0 3 0 1 
-0 0 1 0 3 
-3
-t :  01111
-l : 2 | pos : 2 | r : 3
-0 2 3 0 1 
-0 0 2 0 3 
-3
+GGGGBGGG
+GBGBBGBG
+GBGBBGBG
+GBBBBBBB
+GBGBBGBG
+GGGGBGGG
+GBGBBGBG
+GGGGGGGG
+65
+ans : 13 | ans2 : 5

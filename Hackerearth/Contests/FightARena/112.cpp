@@ -39,15 +39,14 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
  
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
  
  
 /////////////////////////////
- 
- 
+
 int main(){
  
     
@@ -56,48 +55,32 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    int a,b,c;
-    cin >>  a >> b >> c;
-    a--;
-    c--;
-    
 
-    // int fans = 0;
-    // int cnt = 0;
-    // for(int i=  1;i<=a;i++){
-    //     for(int j = 1;j<=c;j++){
-    //         if(i*j < b*b){
-    //             cnt += 1;
-    //             trace(i,b,j);
-    //         }
-    //     }
-    // }
-    // cout << cnt << endl;
-    // fans  = 0;
-
-
-    // for(int i=1;i<b*b;i++){
-    //     if(i<=a){
-    //         int temp = 1.0 *b*b/i;
-    //         trace(i,b,temp);
-    //         temp = ceil(temp);
-    //         temp-=1;
-    //         fans += min(temp,c);
-    //     }
-    // }
-    // cout << fans << endl;
-
-    int fans = 0;
-    int cnt = 0;
-    for(int i=  1;i<=a;i++){
-        for(int j = 1;j<=c;j++){
-            if(i*j < b*b){
-                cnt += 1;
-                //trace(i,b,j);
+    int A,B,C,D;
+    cin >> A >> B >> C >> D;
+    int n;
+    cin >> n;
+    int val[n][4];
+    forn(i,n){
+        cin >> val[i][0] >>  val[i][1] >>  val[i][2] >>  val[i][3]; 
+    }
+    bool ok = 0;
+    int total = (1 << n);
+    forn(i,total){
+        int a = 0,b=0,c=0,d=0;
+        forn(j,n){
+            if( i & (1 << j)){
+                a+=val[j][0];
+                b+=val[j][1];
+                c+=val[j][2];
+                d+=val[j][3];
             }
         }
+        if(a == A && b == B && c == C && d == D){
+            ok = 1;
+            break;
+        }
     }
-    cout << cnt << endl;
-    fans  = 0; 
+    cout << (ok ? "YES" : "NO") << endl;
     return 0;
 }

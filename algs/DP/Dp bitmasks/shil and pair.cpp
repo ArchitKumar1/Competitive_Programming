@@ -39,7 +39,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
  
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -47,57 +47,38 @@ const double eps = 1e-9;
  
 /////////////////////////////
  
- 
+const int N = 20;
+int arr[N];
+
+int dp[1 << N][N];
+int n;
+
+int solve(int mask,int prev){
+    if(mask == ((1 << n)-1)) return 0;
+    int ans =0 ;
+    forn(i,n){
+        if(mask &(1 <<i)) continue;
+        ans =  max(ans,__gcd(arr[i],arr[prev])+ solve(mask | (1<<i),i));
+    }
+    return ans;
+}
 int main(){
  
-    
+FASTIO    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    int a,b,c;
-    cin >>  a >> b >> c;
-    a--;
-    c--;
-    
 
-    // int fans = 0;
-    // int cnt = 0;
-    // for(int i=  1;i<=a;i++){
-    //     for(int j = 1;j<=c;j++){
-    //         if(i*j < b*b){
-    //             cnt += 1;
-    //             trace(i,b,j);
-    //         }
-    //     }
-    // }
-    // cout << cnt << endl;
-    // fans  = 0;
+    cin >> n;
+    forn(i,n) cin >> arr[i];
 
-
-    // for(int i=1;i<b*b;i++){
-    //     if(i<=a){
-    //         int temp = 1.0 *b*b/i;
-    //         trace(i,b,temp);
-    //         temp = ceil(temp);
-    //         temp-=1;
-    //         fans += min(temp,c);
-    //     }
-    // }
-    // cout << fans << endl;
-
-    int fans = 0;
-    int cnt = 0;
-    for(int i=  1;i<=a;i++){
-        for(int j = 1;j<=c;j++){
-            if(i*j < b*b){
-                cnt += 1;
-                //trace(i,b,j);
-            }
-        }
+    int ans = 0;
+    forn(i,n){
+        ans = max(ans,solve(0,i));
     }
-    cout << cnt << endl;
-    fans  = 0; 
+    cout << ans << endl;
+    
     return 0;
 }

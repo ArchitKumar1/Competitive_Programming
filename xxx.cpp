@@ -39,7 +39,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
  
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -47,57 +47,54 @@ const double eps = 1e-9;
  
 /////////////////////////////
  
- 
+
+ vector<pair<int,vector<pair<int,int>>>> all;
+
+void  solve(int w,int h,vector<pair<int,int>> points){
+    int fans =  INT_MIN;
+    forn(i,w){
+        forn(j,h){
+            int temp = INT_MAX;
+            for(PII p : points){
+                temp = min(temp,abs(p.first-i) + abs(p.second -j));
+            }
+            fans = max(fans,temp);
+        }
+    }
+    all.PB({fans,points});
+
+}
 int main(){
  
-    
+FASTIO    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    int a,b,c;
-    cin >>  a >> b >> c;
-    a--;
-    c--;
-    
+    TC{
+        int w,h;
+        cin >> w >> h;
 
-    // int fans = 0;
-    // int cnt = 0;
-    // for(int i=  1;i<=a;i++){
-    //     for(int j = 1;j<=c;j++){
-    //         if(i*j < b*b){
-    //             cnt += 1;
-    //             trace(i,b,j);
-    //         }
-    //     }
-    // }
-    // cout << cnt << endl;
-    // fans  = 0;
-
-
-    // for(int i=1;i<b*b;i++){
-    //     if(i<=a){
-    //         int temp = 1.0 *b*b/i;
-    //         trace(i,b,temp);
-    //         temp = ceil(temp);
-    //         temp-=1;
-    //         fans += min(temp,c);
-    //     }
-    // }
-    // cout << fans << endl;
-
-    int fans = 0;
-    int cnt = 0;
-    for(int i=  1;i<=a;i++){
-        for(int j = 1;j<=c;j++){
-            if(i*j < b*b){
-                cnt += 1;
-                //trace(i,b,j);
+        int n = 2;
+        int total = w*h;
+        vector<pair<int,int>> all1;
+        for(int i=0;i+1<total;i++ ){
+            for(int j = i+1;j<total;j++){
+                int x1= i/w;
+                int y1 =i%w;
+                int x2 =j/w;
+                int y2 =j%w;
+                all1.PB({x1,y1});
+                all1.PB({x2,y2});
+                solve(w,h,all1);
+                all1.clear();
             }
         }
+        sort(ALL(all));
+        cout << all[0] << endl;
+        all.clear();
     }
-    cout << cnt << endl;
-    fans  = 0; 
+    
     return 0;
 }

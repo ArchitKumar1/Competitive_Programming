@@ -39,7 +39,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
  
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -47,57 +47,71 @@ const double eps = 1e-9;
  
 /////////////////////////////
  
- 
+const int N = 123;
+vector<vector<int>>caps;
+int n;
+int dp[1200][200];
+
+int solve(int personmask,int curr_cap){
+    if(personmask == ((1 << n) -1) ) return 1;
+    if(curr_cap > 100) return  0;
+
+    if(dp[personmask][curr_cap] != -1) return dp[personmask][curr_cap];
+
+    int ans = 0 ;
+    ans += solve(personmask,curr_cap+1);
+    ans%= mod;
+    for(int i : caps[curr_cap]){
+        if(!(personmask &(1 << i))){
+            ans += solve(personmask | (1 <<i),curr_cap+1);
+            ans%= mod;
+        }
+    }
+    return dp[personmask][curr_cap] = ans;
+
+}
+
 int main(){
  
-    
+FASTIO    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    int a,b,c;
-    cin >>  a >> b >> c;
-    a--;
-    c--;
-    
+    TC{
+        memset(dp,-1,sizeof(dp));
+        caps.assign(N,vector<int>());
+        cin >> n;
+        string temp,str;
+        getline(cin,str);
+        forn(i,n){
+            getline(cin,str);
+            stringstream ss(str);
+            while(ss >> temp){
 
-    // int fans = 0;
-    // int cnt = 0;
-    // for(int i=  1;i<=a;i++){
-    //     for(int j = 1;j<=c;j++){
-    //         if(i*j < b*b){
-    //             cnt += 1;
-    //             trace(i,b,j);
-    //         }
-    //     }
-    // }
-    // cout << cnt << endl;
-    // fans  = 0;
-
-
-    // for(int i=1;i<b*b;i++){
-    //     if(i<=a){
-    //         int temp = 1.0 *b*b/i;
-    //         trace(i,b,temp);
-    //         temp = ceil(temp);
-    //         temp-=1;
-    //         fans += min(temp,c);
-    //     }
-    // }
-    // cout << fans << endl;
-
-    int fans = 0;
-    int cnt = 0;
-    for(int i=  1;i<=a;i++){
-        for(int j = 1;j<=c;j++){
-            if(i*j < b*b){
-                cnt += 1;
-                //trace(i,b,j);
+                stringstream s;
+                s << temp;
+                int x;
+                s >> x;
+                caps[x].PB(i);
             }
         }
+        cout << solve(0,1) << endl;
+        // for(int i=1;i<=100;i++){
+        //     if(caps[i].size()){
+        //         trace(i,caps[i]);
+        //     }
+        // }
+        
+        
     }
-    cout << cnt << endl;
-    fans  = 0; 
+    
+    // for(int i=1;i<=100;i++){
+    //     for(auto x : caps[i]){
+    //         cout << i << " " << x.first << endl;
+    //     }
+    // }
+    
     return 0;
 }

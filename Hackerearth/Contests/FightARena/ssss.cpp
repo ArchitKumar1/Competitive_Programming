@@ -39,15 +39,32 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
  
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
  
  
 /////////////////////////////
- 
- 
+int n;
+int fans =0 ;
+inline bool safe(int i,int j){
+    return i>=0 && j>=0 && i<n && j<n;
+}
+
+void solve(vector<vector<int>> g,int i,int j){
+    if(safe(i,j) == 0) return;
+    if(g[i][j] == 1) return ;
+    g[i][j] = 1;
+    if(i == n-1 && j == n-1){
+        fans +=1;
+        return;
+    }
+    solve(g,i+1,j);
+    solve(g,i-1,j);
+    solve(g,i,j+1);
+    solve(g,i,j-1);
+}
 int main(){
  
     
@@ -56,48 +73,11 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    int a,b,c;
-    cin >>  a >> b >> c;
-    a--;
-    c--;
-    
 
-    // int fans = 0;
-    // int cnt = 0;
-    // for(int i=  1;i<=a;i++){
-    //     for(int j = 1;j<=c;j++){
-    //         if(i*j < b*b){
-    //             cnt += 1;
-    //             trace(i,b,j);
-    //         }
-    //     }
-    // }
-    // cout << cnt << endl;
-    // fans  = 0;
-
-
-    // for(int i=1;i<b*b;i++){
-    //     if(i<=a){
-    //         int temp = 1.0 *b*b/i;
-    //         trace(i,b,temp);
-    //         temp = ceil(temp);
-    //         temp-=1;
-    //         fans += min(temp,c);
-    //     }
-    // }
-    // cout << fans << endl;
-
-    int fans = 0;
-    int cnt = 0;
-    for(int i=  1;i<=a;i++){
-        for(int j = 1;j<=c;j++){
-            if(i*j < b*b){
-                cnt += 1;
-                //trace(i,b,j);
-            }
-        }
-    }
-    cout << cnt << endl;
-    fans  = 0; 
+    cin >> n;
+    vector<vector<int>> arr(n,vector<int>(n));
+    forn(i,n) forn(j,n) cin >> arr[i][j];
+    solve(arr,0,0);
+    cout << fans << endl;
     return 0;
 }

@@ -47,57 +47,43 @@ const double eps = 1e-9;
  
 /////////////////////////////
  
- 
+
 int main(){
  
-    
+FASTIO    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    int a,b,c;
-    cin >>  a >> b >> c;
-    a--;
-    c--;
-    
+    int q;
+    cin >> q;
 
-    // int fans = 0;
-    // int cnt = 0;
-    // for(int i=  1;i<=a;i++){
-    //     for(int j = 1;j<=c;j++){
-    //         if(i*j < b*b){
-    //             cnt += 1;
-    //             trace(i,b,j);
-    //         }
-    //     }
-    // }
-    // cout << cnt << endl;
-    // fans  = 0;
-
-
-    // for(int i=1;i<b*b;i++){
-    //     if(i<=a){
-    //         int temp = 1.0 *b*b/i;
-    //         trace(i,b,temp);
-    //         temp = ceil(temp);
-    //         temp-=1;
-    //         fans += min(temp,c);
-    //     }
-    // }
-    // cout << fans << endl;
-
-    int fans = 0;
-    int cnt = 0;
-    for(int i=  1;i<=a;i++){
-        for(int j = 1;j<=c;j++){
-            if(i*j < b*b){
-                cnt += 1;
-                //trace(i,b,j);
+    vector<int> qq;
+    while(q--){
+        //cout << qq;
+        int temp;
+        cin >> temp;
+        if(temp == 1){
+            int x;
+            cin >> x;
+            qq.insert(qq.begin(),x);
+        }else if(temp == 2){
+            int x;
+            cin >> x;
+            qq.push_back(x);
+        }else{
+            int x,y;
+            cin >> x>> y;
+            --x;--y;
+            int ans = 0;
+            for(int i=x;i<=y;i++){
+                ans = ans ^ qq[i];
             }
+            cout << ans << endl;
         }
     }
-    cout << cnt << endl;
-    fans  = 0; 
+    
+    
     return 0;
 }
