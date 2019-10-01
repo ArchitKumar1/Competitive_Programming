@@ -1,7 +1,4 @@
 3
-bbbb
-aaa
-zxewya
-abcd
-ac
-zzzb
+0 40
+0 1
+2 2

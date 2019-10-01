@@ -52,32 +52,44 @@ int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
-#endif      
-    
+#endif    
+
     TC{
-        string a,b;
-        cin >>a >> b;
-        vector<char>bb;
-        for(char c : b){
-            bb.PB(c);
-        }
-        sort(ALL(bb));
-        //trace(bb);
-        int n = a.length();
-        int m = b.length();
-        int i = 0;
-        int j = 0;
+        int index,n;
+        cin >> index >> n;
         
-        while(i<n && j<m){
-            //trace(a[i],bb[j]);
-            if(bb[j] <=a[i]){
-                a[i] = bb[j];
-                i++;j++;
-            }else{
-                i++;
+        vector<vector<double>> a(n+1,vector<double>(3,0.0));
+        a[0][index] = 1.0;
+
+        for(int i = 1;i<=n;i++){
+            for(int j = 0;j<3;j++){
+                
+                if(j == 0){
+                    a[i][j]+=a[i-1][1]/2;
+                    //a[i][j]+=a[i-1][2]/2;
+                }else if(j == 1){
+                     a[i][j]+=a[i-1][0]/2;
+                    a[i][j]+=a[i-1][2]/2;
+                }else{
+                    // a[i][j]+=a[i-1][0]/2;
+                    a[i][j]+=a[i-1][1]/2;
+                }
+                
+            }
+            double total = accumulate(ALL(a[i]),0.0);
+            for(int j = 0;j<3;j++){
+                a[i][j] /= total;
             }
         }
-        cout <<a << endl;
+        for(auto c : a){
+            cout << c << endl;
+        }
+        vector<pair<double,int>> temp;
+        for(int i =0 ;i<3;i++){
+            temp.PB({1e5/a[n][i],i});
+        }
+        sort(ALL(temp));
+        cout << temp[0].S << endl;
     }
     return 0;
 }
