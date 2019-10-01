@@ -47,37 +47,36 @@ const double eps = 1e-9;
  
 /////////////////////////////
 
+map<vector<int>,int> m1;
+void solve(vector<int> arr,int pos){
+    if(pos == arr.size()){
+        m1[arr]= 1;
+        trace(arr,pos);
+        return;
+    } 
+    int n = arr.size();
+    for(int i=pos;i<n;i++){
+        swap(arr[pos],arr[i]);
+        solve(arr,pos+1);
+        swap(arr[pos],arr[i]);
+    }
+}
+
 int main(){
  
+    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    TC{
-        string a,b;
-        cin >>a >> b;
-        vector<char>bb;
-        for(char c : b){
-            bb.PB(c);
-        }
-        sort(ALL(bb));
-        //trace(bb);
-        int n = a.length();
-        int m = b.length();
-        int i = 0;
-        int j = 0;
-        
-        while(i<n && j<m){
-            //trace(a[i],bb[j]);
-            if(bb[j] <=a[i]){
-                a[i] = bb[j];
-                i++;j++;
-            }else{
-                i++;
-            }
-        }
-        cout <<a << endl;
-    }
+   int n;
+   cin >> n;
+   vector<int> arr(n);
+   forn(i,n) cin >> arr[i];
+   solve(arr,0);
+   for(auto P :m1){
+       trace(P);
+   }
     return 0;
 }

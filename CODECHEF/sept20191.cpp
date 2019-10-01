@@ -1,10 +1,12 @@
 #include<bits/stdc++.h>
 using namespace std;
  
-template<class T> ostream& operator<<(ostream &os,vector<T> V){
+template<class T> 
+ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
 }
-template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){
+template<class L,class R> 
+ostream& operator<<(ostream &os,pair<L,R> P){
     return os<<"("<<P.first<<","<<P.second<<")";
 }
 #define TRACE
@@ -47,37 +49,46 @@ const double eps = 1e-9;
  
 /////////////////////////////
 
+
 int main(){
  
+    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
-    
     TC{
-        string a,b;
-        cin >>a >> b;
-        vector<char>bb;
-        for(char c : b){
-            bb.PB(c);
-        }
-        sort(ALL(bb));
-        //trace(bb);
-        int n = a.length();
-        int m = b.length();
-        int i = 0;
-        int j = 0;
+        LL n,qq;
+        cin >> n >> qq;
+        LL brr[n];
+        forn(i,n-1) cin >> brr[i];
         
-        while(i<n && j<m){
-            //trace(a[i],bb[j]);
-            if(bb[j] <=a[i]){
-                a[i] = bb[j];
-                i++;j++;
+        while(qq--){
+            LL p,q;
+            cin >> p >> q;
+            p--;
+            q--;
+            LL fans =0;
+           // trace(p,q);
+            LL diff =abs(q-p);
+            if((q-p)&1){
+                if(n&1){
+                    cout << "UNKNOWN" << endl;
+                }else{
+                    fans = brr[(abs(q-p))/2];
+                    cout << fans << endl;
+                }
+                
             }else{
-                i++;
+                if(n&1){
+                    fans = brr[(abs(q-p))/2];
+                    cout << fans << endl;
+                }
+                else cout << "UNKNOWN" << endl;
             }
         }
-        cout <<a << endl;
     }
-    return 0;
+    
+
+    
 }

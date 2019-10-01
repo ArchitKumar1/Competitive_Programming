@@ -1,10 +1,12 @@
 #include<bits/stdc++.h>
 using namespace std;
  
-template<class T> ostream& operator<<(ostream &os,vector<T> V){
+template<class T> 
+ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
 }
-template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){
+template<class L,class R> 
+ostream& operator<<(ostream &os,pair<L,R> P){
     return os<<"("<<P.first<<","<<P.second<<")";
 }
 #define TRACE
@@ -47,37 +49,41 @@ const double eps = 1e-9;
  
 /////////////////////////////
 
+
+const int N = 120;
+int arr[N];
+const int SUM = 12000;
+
+int dp[N][SUM];
+bool solve(int n,int sum){
+    if(sum == 0) return 1;
+    if(n < 0 ) return 0;
+    
+    if(sum >= arr[n]){
+        return solve(n-1,sum-arr[n]) | solve(n-1,sum);
+    }else{
+        if(dp[n-1][sum]== - 1){
+            dp[n-1][sum] = solve(n-1,sum);
+        }
+        return dp[n-1][sum];
+    }
+}
 int main(){
  
+    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    TC{
-        string a,b;
-        cin >>a >> b;
-        vector<char>bb;
-        for(char c : b){
-            bb.PB(c);
-        }
-        sort(ALL(bb));
-        //trace(bb);
-        int n = a.length();
-        int m = b.length();
-        int i = 0;
-        int j = 0;
-        
-        while(i<n && j<m){
-            //trace(a[i],bb[j]);
-            if(bb[j] <=a[i]){
-                a[i] = bb[j];
-                i++;j++;
-            }else{
-                i++;
-            }
-        }
-        cout <<a << endl;
-    }
-    return 0;
+    int n;
+    cin >> n;
+    forn(i,n) cin >> arr[i];
+    int sum;
+    cin >> sum;
+    memset(dp,-1,sizeof(dp));
+    cout << solve(n-1,sum) << endl;
+    
+
+    
 }

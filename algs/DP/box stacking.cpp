@@ -1,10 +1,12 @@
 #include<bits/stdc++.h>
 using namespace std;
  
-template<class T> ostream& operator<<(ostream &os,vector<T> V){
+template<class T> 
+ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
 }
-template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){
+template<class L,class R> 
+ostream& operator<<(ostream &os,pair<L,R> P){
     return os<<"("<<P.first<<","<<P.second<<")";
 }
 #define TRACE
@@ -47,37 +49,57 @@ const double eps = 1e-9;
  
 /////////////////////////////
 
+
+vector<vector<int>> all;
+
 int main(){
  
+    
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif      
     
-    TC{
-        string a,b;
-        cin >>a >> b;
-        vector<char>bb;
-        for(char c : b){
-            bb.PB(c);
-        }
-        sort(ALL(bb));
-        //trace(bb);
-        int n = a.length();
-        int m = b.length();
-        int i = 0;
-        int j = 0;
-        
-        while(i<n && j<m){
-            //trace(a[i],bb[j]);
-            if(bb[j] <=a[i]){
-                a[i] = bb[j];
-                i++;j++;
-            }else{
-                i++;
+    int n;
+    cin >> n;
+    forn(i,n){
+        vector<int> temp(3);
+        forn(j,3) cin >> temp[j];
+        forn(j,6){
+            if(temp[1] >=temp[2]){
+                all.PB(temp);
             }
+            next_permutation(temp.begin(),temp.end());
         }
-        cout <<a << endl;
     }
-    return 0;
+    trace(all);
+    sort(ALL(all),[](vector<int> &a,vector<int>&b){return a[1]*a[2]>=b[1]*b[2];});
+    trace(all);
+    all.resize(unique(ALL(all))- all.begin());
+    trace(all);
+    int dp[all.size()+1]={0};
+    dp[0] = all[0][0];
+    for(int i=0;i<all.size();i++){
+        dp[i] = all[i][0];
+        for(int j = 0;j<i;j++){
+            if(all[i][1] < all[j][1] && all[i][2] < all[j][2])
+                dp[i] = max(dp[i],all[i][0] + dp[j]);
+        }
+    }
+    for(int i=0;i<all.size()+1;i++){
+        cout << dp[i] <<  " ";
+    }
+    cout << endl;
+    cout << dp[all.size()-1] << endl;
+
 }
+
+
+
+
+
+
+
+
+
+
