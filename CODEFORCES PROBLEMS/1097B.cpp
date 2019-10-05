@@ -47,47 +47,29 @@ const double eps = 1e-9;
  
 /////////////////////////////
 
-const int size = 22;
-const int all = (1 << size) -1;
-vector<int> arr(all + 10);
-vector<int> brr(all + 10,-1);
-unordered_map<int,int> m1;
-
 int main(){
- FASTIO
+ 
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     int n;
     cin >> n;
-    forn(i,n) {
-        cin >> arr[i];
-        brr[arr[i]] = arr[i];
-    }
-    forn(i,all+1){
-        if(brr[i] == -1){
-            forn(j,size){
-                if((i & (1 << j)) != 0){
-                    int  mask = i ^ (1 << j);
-                    if(brr[mask]!=-1){
-                        //trace(i,mask);
-                        brr[i] = brr[mask];
-                        j = size;
-                    }
-                }
+    
+    int arr[n];
+    forn(i,n) cin >> arr[i];
+    bool ok = 0;
+    forn(mask,(1 << n)){
+        int total = 0;
+        forn(j,n){
+            if(mask & (1 << j)){
+                total+= arr[j];
+            }else{
+                total-=arr[j];
             }
         }
+        ok |= (total%360 == 0);
     }
-    // for(int i =0 ;i<100;i++){
-    //     trace(brr[i],i);
-    // }
-    forn(i,n){
-        cout << brr[all - arr[i]]  << " ";
-    }
-    
-
-    
-    
+    cout << (ok ? "YES" : "NO") << endl;
     return 0;
 }
