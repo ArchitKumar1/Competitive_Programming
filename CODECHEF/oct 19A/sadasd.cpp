@@ -47,64 +47,28 @@ const double eps = 1e-9;
 /////////////////////////////
 
 
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
-        }
-    }
-}
-
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
+    FASTIO
     TC{
-        int n;
-        cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
-
+        int n,m;
+        cin >> n >> m;
         forn(i,n){
-            process(arr[i]);
-        }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
+            vector<pair<double,int>> all;
+            forn(i,m){
+                double a,b,c;
+                cin >> a >> b >> c;
+                double temp = 1.0 *(1-a/100)*(1 -b /100)*(1-c/100);
+                all.PB({temp,i});
             }
-            
+            sort(ALL(all));
+            cout << all[0].second +1 << " ";
         }
-        cout << fans << endl;
+        cout << endl;
     }
-    
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
     return 0;
 }
 

@@ -38,7 +38,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -46,65 +46,41 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
+LL calc(LL a,LL b,LL mod){
+    LL res= 1;
+    a = a%mod;
+    while(b){
+        if(b&1){
+            res = res*a;
+            res%= mod;
         }
+        b>>=1;
+        a = a*a;
+        a = a%mod;
     }
+    return res;
 }
-
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
-    TC{
-        int n;
-        cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
-
-        forn(i,n){
-            process(arr[i]);
-        }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
-            }
-            
-        }
-        cout << fans << endl;
+    FASTIO
+    LL N = 1e5 + 100;
+    LL fact[N];
+    fact[0] =1;
+    for(LL i =1;i<N;i++){
+        fact[i]  = i*fact[i-1];
+        fact[i]%= mod;
     }
-    
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
+    TC{
+        LL n,k;
+        cin >> n >> k;
+        //trace(calc(10,11,3));
+       //trace(fact[k],calc(fact[k-n],mod-2,mod));
+        LL ans = fact[k] * calc(fact[k-n],mod-2,mod);
+        cout << ans%mod << endl;
+    }
     return 0;
 }
 

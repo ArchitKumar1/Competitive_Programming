@@ -46,22 +46,8 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
+map<pair<int,int> ,int > m1,m2;
 
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
-        }
-    }
-}
 
 int main(){
 #ifndef ONLINE_JUDGE
@@ -69,42 +55,44 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    TC{
-        int n;
-        cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
-
-        forn(i,n){
-            process(arr[i]);
-        }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
+    string special = "1234567890 !'#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    int t;
+    cin >> t;
+    if(t >10){
+        cout << "Invalid Test" << endl;
+    }else{
+        while(t--){
+            string s;
+            cin >> s;
+            int n = s.length();
+            if(n>100) {
+                cout << "Invalid Input" << endl;
+                continue;
+            }
+            int u =0,d=  0,k = 0,sp = 0;
+            for(char c : s){
+                if(c <='z' && c>='a') d++;
+                else if( c<='Z' && c >='A')u++;
+                for(char x : special){
+                    if(c == x){
+                        sp +=1;   
+                    }
+                }
+                if(sp == 0){
+                    k++;
+                }
             }
             
+            if(k == 0){
+                cout << min(u,d) << endl;
+            }else{
+                cout << "Invalid Input" << endl;
+            }
         }
-        cout << fans << endl;
     }
+        
+        
     
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
     return 0;
 }
 

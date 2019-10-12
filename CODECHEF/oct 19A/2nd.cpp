@@ -24,6 +24,7 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define TC int t; cin >> t;while(t--)
 #define forn(i,n) for(int i=0;i<n;i++)
+#define REP(i,a,b) for(int i = a;i<=b;i++)
 
 #define ALL(x) x.begin(),x.end()
 #define LL long long int
@@ -38,30 +39,13 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = pow(10,9) +9;
+const int mod = 720720;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
 
 /////////////////////////////
-
-
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
-        }
-    }
-}
 
 int main(){
 #ifndef ONLINE_JUDGE
@@ -70,41 +54,63 @@ freopen("output.txt", "w", stdout);
 #endif    
     
     TC{
-        int n;
-        cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
-
-        forn(i,n){
-            process(arr[i]);
+    LL n;
+    cin >> n;
+    LL k;
+    cin >> k;
+    vector<LL> arr(n);
+    forn(i,n) cin >> arr[i];
+    
+    LL i = 0;
+    vector<vector<LL>> vv(n,vector<LL>(3));
+    forn(i,n){
+        if(i<n/2){
+            vv[i][0] = arr[i]^arr[n-i-1];
+            vv[i][1] = arr[n-i-1];
+            vv[i][2] = arr[i];
+        }else{
+            vv[i][0] = arr[n-i-1];
+            vv[i][1] = arr[i]^arr[n-i-1];
+            vv[i][2] = arr[i];
         }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
-            }
-            
-        }
-        cout << fans << endl;
     }
-    
-    
+    // trace(vv);
+    k--;
+    for(LL i = 0;i<n;i++){
+        if(i!= n-i-1){
+            LL base =2;
 
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
+            LL q = k/n;
+            base += (q);
+            base%= 3;
+            
+            LL rem = k%n;
+           // rem = rem -1;
+            if(rem>=i){
+                base +=1;
+                base%= 3;
+            }
+            // trace(q,rem,base);
+            cout << vv[i][base] << " ";
+        }else{
+            if(k >= n/2){
+                cout << "0" << " ";
+            }else{
+                cout << arr[i] << " ";
+            }
+        }
+        
+    }
+    // i = 0;
+    // forn(y,25){
+    //     i = i%n;
+    //     LL x = arr[i] ^ arr[n-i-1];
+    //     //trace(arr[i],arr[n-i-1],x);
+    //     arr[i] = x;
+    //     trace(arr,i+1);
+    //     i++;
+    // }
+    }
     return 0;
 }
 

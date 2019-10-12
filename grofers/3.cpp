@@ -24,6 +24,7 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define TC int t; cin >> t;while(t--)
 #define forn(i,n) for(int i=0;i<n;i++)
+#define REP(i,a,b) for(int i = a;i<=b;i++)
 
 #define ALL(x) x.begin(),x.end()
 #define LL long long int
@@ -38,7 +39,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = pow(10,9) +9;
+const int mod = 720720;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -46,65 +47,32 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
-        }
-    }
-}
-
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    TC{
-        int n;
-        cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
+    int n;
+    cin >> n;
+    map<int,int> m1;
 
-        forn(i,n){
-            process(arr[i]);
-        }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
-            }
-            
-        }
-        cout << fans << endl;
+    forn(i,n){
+        int x;
+        cin >> x;
+        m1[x]+=1;
     }
-    
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
+    vector<pair<int,int>> all1;
+    for(auto x : m1){
+        if(x.S >=1){
+            all1.PB({x.S,x.F});
+        }
+    }
+    sort(ALL(all1));
+    trace(all1);
+    for(int i = all1.size()-1;i>=0;i--){
+        cout << all1[i].S << " ";
+    }
     return 0;
 }
 

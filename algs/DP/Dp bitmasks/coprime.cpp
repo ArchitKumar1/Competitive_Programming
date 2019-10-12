@@ -3,7 +3,7 @@ using namespace std;
 template<class T> ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
 }
-template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){
+template<class L,class R> ostream& operator<<(onstream &os,pair<L,R> P){
     return os<<"("<<P.first<<","<<P.second<<")";
 }
 #define TRACE
@@ -38,31 +38,41 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
 
 /////////////////////////////
+vector<int> primes{2,3,5,7,11,13,17,19,23,29,31,37,41,43,47};
+int n;
 
+vector<vector<int>> dp;
 
-const int N = 1e6+10;
+int maxval = (1 << 15) -1;
 
-vector<int> curr;
-vector<vector<int>> facts;
+int solve(int mask,int curr,VI &arr){
+    if(curr == n) return 0;
+    if(dp[mask][curr] != -1) return dp[mask][curr];
 
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
+    int ways = solve(mask,curr+1,arr);
+
+    if(arr[curr] == 1){
+        return dp[mask][curr] = ways + 1;
+    }
+    LL newmask = mask;
+    bool ok = 1;
+    forn(i,15){
+        if((arr[curr]%primes[i] == 0) ){
+            if(newmask &(1 << i)) return dp[mask][curr] = ways;
+            newmask |= (1 << i);
         }
     }
+    return dp[mask][curr]= max(ways,1 + solve(newmask,curr+1,arr));
+    
+    
 }
-
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
@@ -70,41 +80,18 @@ freopen("output.txt", "w", stdout);
 #endif    
     
     TC{
-        int n;
+        
         cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
-
+        VI arr(n);
         forn(i,n){
-            process(arr[i]);
+            cin >> arr[i];
         }
+        //sort(ALL(arr));
+        dp.assign((1 << 16),vector<int>(60,-1));
 
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
-            }
-            
-        }
-        cout << fans << endl;
+        cout <<  solve(0LL,0,arr) << endl;
     }
     
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
     return 0;
 }
 

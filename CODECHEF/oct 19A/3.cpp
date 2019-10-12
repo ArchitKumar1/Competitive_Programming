@@ -24,6 +24,7 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define TC int t; cin >> t;while(t--)
 #define forn(i,n) for(int i=0;i<n;i++)
+#define REP(i,a,b) for(int i = a;i<=b;i++)
 
 #define ALL(x) x.begin(),x.end()
 #define LL long long int
@@ -38,7 +39,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = pow(10,9) +9;
+const int mod = 720720;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -46,23 +47,22 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
+vector<vector<int>> G;
+vector<int> in,out,vis;
 
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
+int cnt = 0;
+void dfs(int s,int par){
+    ++cnt;
+    vis[s] =1;
+    if(in[s]>0){
+        in[s]--;
+        for(int c : G[s]){
+            if(vis[c] == 1) continue;
+            dfs(c,s);
         }
     }
-}
-
+    
+}   
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
@@ -72,39 +72,30 @@ freopen("output.txt", "w", stdout);
     TC{
         int n;
         cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
+        G.assign(n,vector<int>());
+        in.assign(n,0);
+        out.assign(n,0);
 
-        forn(i,n){
-            process(arr[i]);
+        int m;
+        cin >> m;
+        for(int i=0;i<n;i++){
+            int x,y;
+            cin >>x >> y;
+            in[x]++;
+            in[y]++;
+            --x;--y;
+            G[x].PB(y);
+            G[y].PB(x);
         }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
+        vector<pair<int,int>> connected;
+        for(int i=0;i<n;i++){
+            cnt = 0;
+            if(vis[i] == 0){
+                dfs(i,-1);
             }
-            
+            connected.
         }
-        cout << fans << endl;
     }
-    
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
     return 0;
 }
 

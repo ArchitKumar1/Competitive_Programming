@@ -24,6 +24,7 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define TC int t; cin >> t;while(t--)
 #define forn(i,n) for(int i=0;i<n;i++)
+#define REP(i,a,b) for(int i = a;i<=b;i++)
 
 #define ALL(x) x.begin(),x.end()
 #define LL long long int
@@ -38,73 +39,52 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
 
 /////////////////////////////
+const int N = 505;
+const int K = 12;
+int dp[N][N][K][K];
+string x,y;
+int n,m;
 
-
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
-        }
+int solve(int i,int j,int k1,int k2){
+    if(i == n || j == m ) return 0;
+    int ans = 0;
+    if(dp[i][j][k1][k2] !=-1) return dp[i][j][k1][k2];
+    if(x[i] == y[j]){
+        ans = 1 + solve(i+1,j+1,k1,k2);
     }
+    else{
+        //int ans = 0;
+        if (k1 > 0){
+            ans = max(ans,1+solve(i+1,j+1,k1-1,k2));
+        }
+        if(k2>0){
+            ans = max(ans,1+solve(i+1,j+1,k1,k2-1));
+        }
+        ans = max(ans,solve(i+1,j,k1,k2));
+        ans = max(ans,solve(i,j+1,k1,k2));
+    }
+    return dp[i][j][k1][k2] = ans;
 }
-
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
-    TC{
-        int n;
-        cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
-
-        forn(i,n){
-            process(arr[i]);
-        }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
-            }
-            
-        }
-        cout << fans << endl;
-    }
-    
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
+    FASTIO
+    memset(dp,-1,sizeof(dp));
+    cin >> x>> y;
+    n = x.length();
+    m = y.length();
+    int k1,k2;
+    cin >> k1 >> k2;
+    cout << solve(0,0,k1,k2);
     return 0;
 }
 

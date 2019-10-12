@@ -38,7 +38,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = pow(10,9) +9;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -46,65 +46,42 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-
-const int N = 1e6+10;
-
-vector<int> curr;
-vector<vector<int>> facts;
-
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
-        }
-    }
-}
-
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
     TC{
-        int n;
+        LL n;
         cin >> n;
-        vector<int> arr(n);
-        curr.assign(N,0);
-        facts.assign(N,vector<int>());
-        forn(i,n)cin >> arr[i];
-
-        forn(i,n){
-            process(arr[i]);
-        }
-
-        int fans = INT_MIN;
-        forn(i,n){
-
-            //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
-                curr[c]++;
+        vector<int> all;
+        for(int i =1;i*i<=n;i++){
+            if(n%i == 0){
+                all.PB(i);
+                if(n/i != i){
+                    all.PB(n/i);
+                }
             }
-            
+        }
+        //cout << all;
+        LL fans = 0;
+        for(int c : all){
+            int cnt = 0;
+            for(int i =2;i*i<=c;i++){
+                if(n%i == 0){
+                    cnt++;
+                    if(n/i != i){
+                        cnt++;
+                    }
+                }
+                if(c!=1)cnt++;
+            }
+            //trace(c,cnt);
+            fans += (c- cnt) ;
         }
         cout << fans << endl;
     }
     
-    
-
-    
-    // 7
-    // 8 1 28 4 2 6 7
-    
-
-    // 3
-#ifndef ONLINE_JUDGE
-    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s." << endl;
-#endif
     return 0;
 }
 

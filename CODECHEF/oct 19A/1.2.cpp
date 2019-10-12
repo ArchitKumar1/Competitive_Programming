@@ -50,43 +50,35 @@ const double eps = 1e-9;
 const int N = 1e6+10;
 
 vector<int> curr;
-vector<vector<int>> facts;
+vector<int> facts[N];
 
-void process(int n){
-    for(int i =1;i*i<=n;i++){
-        if(n%i == 0){
-            facts[n].PB(i);
-            if(i != n/i){
-                facts[n].PB(n/i);
-            }
-        }
-    }
-}
 
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
     TC{
         int n;
         cin >> n;
         vector<int> arr(n);
         curr.assign(N,0);
-        facts.assign(N,vector<int>());
         forn(i,n)cin >> arr[i];
-
-        forn(i,n){
-            process(arr[i]);
-        }
-
         int fans = INT_MIN;
-        forn(i,n){
-
+        forn(j,n){
             //trace(curr[arr[i]] );
-            fans = max(fans,(int)curr[arr[i]]);
-            for(int c : facts[arr[i]]){
+            fans = max(fans,(int)curr[arr[j]]);
+            vector<int> facts;
+            for(int i =1;i*i<=arr[j];i++){
+                if(arr[j]%i == 0){
+                    facts.PB(i);
+                    if(i != arr[j]/i){
+                        facts.PB(arr[j]/i);
+                    }
+                }
+            }
+        
+            for(int c : facts){
                 curr[c]++;
             }
             
