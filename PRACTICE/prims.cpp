@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+    #include<bits/stdc++.h>
 using namespace std;
 template<class T> ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
@@ -34,57 +34,54 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define S second
 #define endl "\n"
 
+typedef pair<int,int>PII;
+typedef vector<int> VI;
+typedef vector<VI> VVI;
+typedef vector<PII> VPII;
+
+const int mod = pow(10,9) +7;
+const int inf = 2e9;
+const LL linf = 2e18;
+const double eps = 1e-9;
+
 
 /////////////////////////////
+ int n,m;
+vector<vector<pair<int,int>>> G;
+vector<pair<int,int>> mst;
+int cost = 0;
+vector<int> vis;
 
-
+void prims(int s){
+    set<pair<int,pair<int,int>>> ss;
+    ss.insert({0,{-1,s}});
+    while(ss.size()){
+        pair<int,pair<int,int>> temp = *ss.begin();ss.erase(ss.begin());
+        if(vis[temp.S.S] == 1) continue;
+        vis[temp.S.S] = 1;
+        cost += temp.F;
+        if(temp.S.F != -1) mst.PB({1+temp.S.F,1+temp.S.S});
+        for(pair<int,int> c : G[temp.S.S]){
+            ss.insert({c.S,{temp.S.S,c.F}});
+        }
+    }
+    cout << cost << endl;
+    cout << mst << endl;
+}
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    TC{
-        LL n,m;
-        cin >> n>> m;
-        LL N = max(n,m);
-        vector<pair<LL,LL>> hori(m,{0,m});
-        vector<pair<LL,LL>> verti(n,{0,n});
-        
-        LL q;
-        cin >> q;
-
-        LL totaleven = n*m;
-        LL totalodd = 0;
-
-        while(q--){
-            LL x,y;
-            cin >> x >> y;
-            
-            --x;--y;
-            trace(x,y);
-            bool ok = 0;
-            if(hori[x].F<hori[x].S) ok =1;
-            swap(hori[x].F,hori[x].S);
-
-            if(ok == 1) hori[x].F--,hori[x].S++;
-            else hori[x].F++,hori[x].S--;
-
-            totalodd += hori[x].F;
-            totalodd -=hori[x].S;
-            ok = 0;
-            if(verti[y].F<verti[y].S) ok =1;
-            swap(verti[y].F,verti[y].S);
-
-            if(ok == 1) verti[y].F--,verti[y].S++;
-            else verti[y].F++,verti[y].S--;
-
-            totalodd += verti[x].F;
-            totalodd -= verti[x].S;
-            trace(hori,verti);
-        }
-        cout << totalodd << endl;
-    }
     
+    cin >> n >> m;
+    G.assign(n,vector<pair<int,int>>());
+    vis.assign(n,0);
+    forn(i,m){
+        int x,y,z; cin >> x>> y >> z; --x;--y;
+        G[x].PB({y,z}) ; G[y].PB({x,z});
+    }
+    prims(0);
     return 0;
 }
 

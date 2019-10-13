@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+    #include<bits/stdc++.h>
 using namespace std;
 template<class T> ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
@@ -39,30 +39,29 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = 720720;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
 
 /////////////////////////////
-const int N = 1234567;
-vector<LL> vals(N);
-
-vector<vector<int>> G(N);
-
-void dfs(int s,int par){
-    bool ok = 1;
-    for(int c :G[s] ){
-        
-        if(c!=par){
-            ok = 0;
-            dfs(c,s);
-            vals[c] +=vals[s];
+ int n,m;
+vector<vector<pair<int,int>>> G;
+vector<int> dist;
+void dij(int s){
+    dist.assign(n,inf);
+    dist[s] = 0;
+    set<pair<int,int>> ss;
+    ss.insert({0,s});
+    while(ss.size()){
+        pair<int,int> temp = *ss.begin();ss.erase(ss.begin());
+        for(pair<int,int> c : G[temp.S]){
+            if(dist[c.F] > dist[temp.S] +  c.S){
+                ss.insert({dist[c.F] = dist[temp.S] + c.S,c.F});
+            }
         }
     }
-    if(ok == 0) vals[s] = 0;
-    
 }
 int main(){
 #ifndef ONLINE_JUDGE
@@ -70,41 +69,14 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    
-    int n;
-    cin >> n;
-    int q;
-    cin >> q;
-
-    
-    for(int i=0;i<n-1;i++){
-        int x,y;
-        cin >> x >> y;
-        --x;--y;
-        G[x].PB(y);
-        G[y].PB(x);
+    cin >> n >> m;
+    G.assign(n,vector<pair<int,int>>());
+    forn(i,m){
+        int x,y,z; cin >> x>> y >> z; --x;--y;
+        G[x].PB({y,z}) ; G[y].PB({x,z});
     }
-    forn(i,n) cin >> vals[i];
-    while(q--){
-        char c ;
-        cin >> c;
-        if(c == '+'){
-            dfs(0,-1);
-            int s,v;
-            cin >> s >> v;
-            --s;
-            vals[s]+=v;
-            
-        }else{
-            dfs(0,-1);
-            int s;
-            cin >> s;
-            s--;
-            cout << vals[s] << endl;
-            
-        }
-
-    }
+    dij(0);
+    trace(dist);
     return 0;
 }
 

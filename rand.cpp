@@ -39,7 +39,7 @@ typedef vector<int> VI;
 typedef vector<VI> VVI;
 typedef vector<PII> VPII;
 
-const int mod = 720720;
+const int mod = pow(10,9) +7;
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
@@ -47,55 +47,19 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-vector<vector<int>> G;
-vector<int> in,out,vis;
+int val = 20;
 
-int cnt = 0;
-void dfs(int s,int par){
-    ++cnt;
-    vis[s] =1;
-    if(in[s]>0){
-        in[s]--;
-        for(int c : G[s]){
-            if(vis[c] == 1) continue;
-            dfs(c,s);
-        }
-    }
-    
-}   
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    TC{
-        int n;
-        cin >> n;
-        G.assign(n,vector<int>());
-        in.assign(n,0);
-        out.assign(n,0);
-
-        int m;
-        cin >> m;
-        for(int i=0;i<n;i++){
-            int x,y;
-            cin >>x >> y;
-            in[x]++;
-            in[y]++;
-            --x;--y;
-            G[x].PB(y);
-            G[y].PB(x);
-        }
-        vector<pair<int,int>> connected;
-        for(int i=0;i<n;i++){
-            cnt = 0;
-            if(vis[i] == 0){
-                dfs(i,-1);
-            }
-            connected.
-        }
-    }
+    val = 2;
+    {
+        val = 1;
+        cout << ::val << endl;
+    }    
     return 0;
 }
 

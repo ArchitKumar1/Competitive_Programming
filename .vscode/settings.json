@@ -57,7 +57,8 @@
         "utility": "cpp",
         "valarray": "cpp",
         "memory": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "string": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
