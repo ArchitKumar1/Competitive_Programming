@@ -40,36 +40,43 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-struct node{
-    int data;
-    node *left,*right;
-    node(int data) : data(data),left(NULL),right(NULL){};
-};
 
-
-bool check(node* root){
-    bool ok = 1;
-    if(root->left){
-        ok&= (root->left->data < root->data);
-        ok&= check(root->left);
-    }
-    if(root->right){
-        ok&= (root->right->data >= root->data);
-        ok&= check(root->right);
-    }
-    return ok;
-}
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    node* root = new node(4);
-    root->left = new node(3);
-    root->right = new node(5);
-    cout << check(root);
-    return 0;
+    TC{
+        int n;
+        cin >> n;
+        int arr[n];
+        forn(i,n) cin >> arr[i];
+        for(int i=0;i+2<n;i++){
+            vector<int> temp(arr+i,arr+i+3);
+            int mini = *min_element(ALL(temp));
+            if(mini == temp[0])continue;
+            else{
+                swap(temp[0],temp[1]);
+                swap(temp[0],temp[2]);
+                if(mini = temp[0]){
+                    arr[i] = temp[0];
+                    arr[i+1] = temp[1];
+                    arr[i+2] = temp[2];
+                }else{
+                    swap(temp[0],temp[1]);
+                    swap(temp[0],temp[2]);
+                    arr[i] = temp[0];
+                    arr[i+1] = temp[1];
+                    arr[i+2] = temp[2];
+                }
+            }
+            trace(temp);
+        }
+        for(int i=0;i<n;i++){
+            cout << arr[i] << " ";
+        }
+    }
     
 }
 

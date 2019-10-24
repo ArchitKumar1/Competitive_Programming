@@ -40,36 +40,34 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-struct node{
-    int data;
-    node *left,*right;
-    node(int data) : data(data),left(NULL),right(NULL){};
-};
 
-
-bool check(node* root){
-    bool ok = 1;
-    if(root->left){
-        ok&= (root->left->data < root->data);
-        ok&= check(root->left);
-    }
-    if(root->right){
-        ok&= (root->right->data >= root->data);
-        ok&= check(root->right);
-    }
-    return ok;
-}
 int main(){
-#ifndef ONLINE_JUDGE
+#ifdef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    node* root = new node(4);
-    root->left = new node(3);
-    root->right = new node(5);
-    cout << check(root);
-    return 0;
+    int n;
+    cin >> n;
+    map<int,int> m1;
+    forn(i,n){
+        int x;
+        cin >> x;
+        m1[x]--;
+
+    }
+    int m;
+    cin >> m;
+    forn(i,m){
+        int x;
+        cin >> x;
+        m1[x]++;
+    }
+    for(auto x : m1){
+        if(x.S >=1){
+            cout << x.F<< " ";
+        }
+    }
     
 }
 

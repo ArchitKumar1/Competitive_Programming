@@ -12,6 +12,7 @@
             
             "defines": [
                 "_DEBUG",
+                "LOCAL",
                 "UNICODE",
                 "__GNUC__=7",
                 "__stdcall=attribute((stdcall))",

@@ -40,24 +40,30 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-struct node{
-    int data;
-    node *left,*right;
-    node(int data) : data(data),left(NULL),right(NULL){};
-};
+const int N = 3;
+const int L = pow(1e9+1000,0.5);
 
-
-bool check(node* root){
-    bool ok = 1;
-    if(root->left){
-        ok&= (root->left->data < root->data);
-        ok&= check(root->left);
+vector<LL> all;
+void help(){
+    all.PB(0);
+    for(int i=0;i<L;i++){
+        all.PB((LL)i*i);
     }
-    if(root->right){
-        ok&= (root->right->data >= root->data);
-        ok&= check(root->right);
+}
+int bs(int val){
+    int l = 0;
+    int h =all.size()- 1;
+    int ans=0;
+    while(l<=h){
+        int mid = (l+h)>>1;
+        if(all[mid]<=val){
+            l = mid+1;
+            ans = mid;
+        }else{
+            h = mid-1;
+        }
     }
-    return ok;
+    return ans;
 }
 int main(){
 #ifndef ONLINE_JUDGE
@@ -65,11 +71,12 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    node* root = new node(4);
-    root->left = new node(3);
-    root->right = new node(5);
-    cout << check(root);
-    return 0;
+    help();
+    TC{
+        int a,b;
+        cin >> a >> b;
+        cout << bs(b) - bs(a-1) <<endl;
+    }
     
 }
 

@@ -40,35 +40,30 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-struct node{
-    int data;
-    node *left,*right;
-    node(int data) : data(data),left(NULL),right(NULL){};
-};
 
-
-bool check(node* root){
-    bool ok = 1;
-    if(root->left){
-        ok&= (root->left->data < root->data);
-        ok&= check(root->left);
-    }
-    if(root->right){
-        ok&= (root->right->data >= root->data);
-        ok&= check(root->right);
-    }
-    return ok;
-}
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    node* root = new node(4);
-    root->left = new node(3);
-    root->right = new node(5);
-    cout << check(root);
+     LL n;
+    cin >> n;
+    vector<pair<LL,LL>> all;
+    LL megaid = 2e9;
+    map<LL,LL> zscore;
+    forn(i,n){
+        LL id,z,p,l,c,s;
+        cin >> id >> z >> p >> l >> c >> s;
+        zscore[id] =z;
+        all.PB({-z+ p*50+l*5+c*10+s*20,id});
+    }
+    sort(ALL(all));
+    reverse(ALL(all));
+    for(LL i=0;i<5;i++){
+        int id = all[i].S;
+        cout << id << " " << all[i].F + zscore[id]  << endl;
+    }
     return 0;
     
 }

@@ -40,36 +40,38 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-struct node{
-    int data;
-    node *left,*right;
-    node(int data) : data(data),left(NULL),right(NULL){};
-};
 
-
-bool check(node* root){
-    bool ok = 1;
-    if(root->left){
-        ok&= (root->left->data < root->data);
-        ok&= check(root->left);
-    }
-    if(root->right){
-        ok&= (root->right->data >= root->data);
-        ok&= check(root->right);
-    }
-    return ok;
-}
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    node* root = new node(4);
-    root->left = new node(3);
-    root->right = new node(5);
-    cout << check(root);
-    return 0;
+    TC{
+        int n;
+        cin >> n;
+        int arr[n+2];
+        vector<int> dp1(n+2,0);
+        forn(i,n){
+            cin >> arr[i+1];
+        }
+        for(int i=1;i<=n;i++){
+            dp1[i] = dp1[i-1] + arr[i];
+        }
+        int ans = 0;
+        bool ok = 0;
+        for(int i=1;i<=n;i++){
+            int l = dp1[i-1];
+            int r = dp1[n] - dp1[i];
+            ok|= (l==r);
+        }
+        if(ok == 0){
+            cout << "NO" << endl;
+        }else{
+            cout << "YES" << endl;
+        }
+        
+    }
     
 }
 

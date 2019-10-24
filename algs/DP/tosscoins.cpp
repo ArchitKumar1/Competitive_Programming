@@ -40,36 +40,47 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-struct node{
-    int data;
-    node *left,*right;
-    node(int data) : data(data),left(NULL),right(NULL){};
-};
+int target;
+vector<double> prob(100);
+int n;
 
-
-bool check(node* root){
-    bool ok = 1;
-    if(root->left){
-        ok&= (root->left->data < root->data);
-        ok&= check(root->left);
+double solve(int heads,int pos){
+    //cout << heads << " " << pos << endl;
+    if(heads < 0) return 0;
+    if(heads > pos) return 0;
+    if(pos == 1){
+        if(heads == 0) return (1-prob[1]);
+        else return prob[1];
     }
-    if(root->right){
-        ok&= (root->right->data >= root->data);
-        ok&= check(root->right);
+    else{
+        return solve(heads-1,pos-1)*prob[pos] + solve(heads,pos-1)*(1-prob[pos]);
     }
-    return ok;
 }
 int main(){
-#ifndef ONLINE_JUDGE
+#ifndef LOCAL
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
+    cout << setprecision(10); 
+    cout << fixed;
     
-    node* root = new node(4);
-    root->left = new node(3);
-    root->right = new node(5);
-    cout << check(root);
-    return 0;
+    cin >> n;
+    forn(i,n) cin >> prob[i+1];    
+    cin >> target;
+
+    cout << solve(target,n);
+    int N = 500;
+    int dp[N][N];
+    dp[0][1] = 1 -prob[1];
+    dp[1][1] = prob[1];
+    for(int i=1;i<=n;i++){
+        for(int j = 0;j<target;j++){
+            if(j <=i){
+                dp[i][j] = dp[i-1][j-1]*prob[i] + dp[i][j-1]*(1-prob[j]);
+            }
+        }
+    }
+    cout << dp[n][target-1];
     
 }
 
