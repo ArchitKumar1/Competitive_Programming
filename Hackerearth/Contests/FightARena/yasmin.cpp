@@ -49,28 +49,25 @@ freopen("output.txt", "w", stdout);
     
     int n;
     cin >> n;
-    map<int,int>m1;
-    forn(i,n){
-        int x;
-        cin >> x;
-        int ans =0 ;
-        for(int i =1;i*i<=x;i++){
-            if(x%i == 0){
-                m1[i]++;
-                if(x/i!=i){
-                    m1[x/i]++;
-                }
-            }
+    int arr[n];
+    forn(i,n) cin >> arr[i];
+    sort(arr,arr+n);
+    int i = 0;
+    int j = n-1;
+    int brr[n];
+    forn(k,n){
+        if(k%2 == 0){
+            brr[k] = arr[i++];
+        }else{
+            brr[k] = arr[j--];
         }
     }
-    int q;
-    cin >> q;
-    while(q--){
-        int k;
-        cin >> k;
-        
-        cout << m1[k]  << endl;
+    LL sum= 0;
+    for(int i=0;i<n;i++){
+        sum += abs(brr[(i+1)%n]- brr[i]);
+       // trace(brr[i+1],brr[i]);
     }
+    cout << sum  << endl;
     
 }
 

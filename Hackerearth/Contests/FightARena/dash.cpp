@@ -47,30 +47,28 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    int n;
-    cin >> n;
-    map<int,int>m1;
-    forn(i,n){
-        int x;
-        cin >> x;
-        int ans =0 ;
-        for(int i =1;i*i<=x;i++){
-            if(x%i == 0){
-                m1[i]++;
-                if(x/i!=i){
-                    m1[x/i]++;
-                }
-            }
-        }
+    string s;
+    cin >> s;
+    int n = s.length();
+    int arr[10];
+    arr[0] = 6;
+    arr[1] = 2;
+    arr[2] = 5;
+    arr[3] = 5;
+    arr[4] = 4;
+    arr[5] = 5;
+    arr[6] = 6;
+    arr[7] = 3;
+    arr[8] = 7;
+    arr[9] = 6;
+
+    int sum = 0;
+    for(char c : s){
+        sum += arr[c-'0'];
     }
-    int q;
-    cin >> q;
-    while(q--){
-        int k;
-        cin >> k;
-        
-        cout << m1[k]  << endl;
-    }
+    cout << sum << endl;
+
+    
     
 }
 

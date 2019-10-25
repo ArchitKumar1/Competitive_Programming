@@ -40,37 +40,36 @@ const double eps = 1e-9;
 
 /////////////////////////////
 
-
+LL calc(LL n){
+    LL ans = 0;
+    while(n){
+        ans += n%10;
+        n = n/10;
+    }
+    return ans;
+}
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    int n;
-    cin >> n;
-    map<int,int>m1;
-    forn(i,n){
-        int x;
-        cin >> x;
-        int ans =0 ;
-        for(int i =1;i*i<=x;i++){
-            if(x%i == 0){
-                m1[i]++;
-                if(x/i!=i){
-                    m1[x/i]++;
-                }
-            }
+    TC{
+        LL fans = 0;
+        LL temp =0;
+        LL n;
+        cin >> n;
+        forn(i,n){
+            LL a,b;
+            cin >> a >> b;
+            fans +=calc(a*b);
         }
+        while(fans >=10){
+            fans = calc(fans);
+        }
+        cout << fans <<  " " << endl;
     }
-    int q;
-    cin >> q;
-    while(q--){
-        int k;
-        cin >> k;
-        
-        cout << m1[k]  << endl;
-    }
+    
     
 }
 

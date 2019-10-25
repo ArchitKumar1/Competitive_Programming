@@ -47,29 +47,15 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    int n;
-    cin >> n;
-    map<int,int>m1;
-    forn(i,n){
-        int x;
-        cin >> x;
-        int ans =0 ;
-        for(int i =1;i*i<=x;i++){
-            if(x%i == 0){
-                m1[i]++;
-                if(x/i!=i){
-                    m1[x/i]++;
-                }
-            }
+    TC{
+        int n,k;
+        cin >> n >> k;
+        int arr[n];
+        forn(i,n){
+            cin >> arr[i];
         }
-    }
-    int q;
-    cin >> q;
-    while(q--){
-        int k;
-        cin >> k;
-        
-        cout << m1[k]  << endl;
+        int m = *min_element(arr,arr+n);
+        cout << max(k-m,0) << endl;
     }
     
 }

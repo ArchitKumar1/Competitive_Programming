@@ -47,30 +47,22 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-    int n;
-    cin >> n;
-    map<int,int>m1;
-    forn(i,n){
-        int x;
-        cin >> x;
-        int ans =0 ;
-        for(int i =1;i*i<=x;i++){
-            if(x%i == 0){
-                m1[i]++;
-                if(x/i!=i){
-                    m1[x/i]++;
-                }
-            }
+    TC{
+        string a;
+        cin >> a;
+        int n =a.length();
+        vector<int> all(26,0);
+        string ans= "";
+        for(char c : a){
+            all[c-'a']+=1;
+            int v = (int)(c-'a') + all[c-'a']-1 + 13;
+            v%=26;
+            ans+= (char)('a'+v); 
         }
+        cout << ans << endl;
     }
-    int q;
-    cin >> q;
-    while(q--){
-        int k;
-        cin >> k;
-        
-        cout << m1[k]  << endl;
-    }
+
+    
     
 }
 

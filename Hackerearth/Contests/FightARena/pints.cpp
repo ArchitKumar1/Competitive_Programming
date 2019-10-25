@@ -49,28 +49,24 @@ freopen("output.txt", "w", stdout);
     
     int n;
     cin >> n;
-    map<int,int>m1;
-    forn(i,n){
-        int x;
-        cin >> x;
-        int ans =0 ;
-        for(int i =1;i*i<=x;i++){
-            if(x%i == 0){
-                m1[i]++;
-                if(x/i!=i){
-                    m1[x/i]++;
-                }
-            }
-        }
+
+    if(n!=1 && n!=2 && n!=4){
+        cout << "NO" << endl;
+    }else if(n == 1){
+        cout << "YES" << endl;
+        cout << "0 0" << endl;
+    }else if(n == 2){
+        cout << "YES" << endl;
+        cout << "0 0" << endl;
+        cout << "1 0" << endl;
+    }else if(n == 4){
+        cout << "YES" << endl;
+        cout << "0 0" << endl;
+        cout << "0 1" << endl;
+        cout << "1 1" << endl;
+        cout << "1 0" << endl;
     }
-    int q;
-    cin >> q;
-    while(q--){
-        int k;
-        cin >> k;
-        
-        cout << m1[k]  << endl;
-    }
+    
     
 }
 
