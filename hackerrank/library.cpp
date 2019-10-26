@@ -27,7 +27,7 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define F first
 #define S second
 #define endl "\n"
-#define l() cout << endl;
+
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define TC int t; cin >> t;while(t--)
 #define forn(i,n) for(int i=0;i<n;i++)
@@ -39,24 +39,21 @@ const double eps = 1e-9;
 
 
 /////////////////////////////
-const int N = 123456;
-const int K = 26;
-int BIT[N][K];
 
 
-    
-void update(int x,int val,int pos){
-    
-    for(;x<N;x += x&-x){
-        BIT[x][pos]+= val;
+vector<vector<int>> G;
+vector<int> vis;
+
+int currtotal =0;
+void dfs(int s){
+    vis[s] =1;
+    currtotal++;
+    for(int c : G[s]){
+        if(vis[c] == 0){
+            dfs(c);
+        }
     }
-}   
-int query(int x,int pos){
-    int sum = 0;
-    for(;x>0 ;x -= x&-x){
-        sum += BIT[x][pos];
-    }
-    return sum;
+  
 }
 
 
@@ -65,43 +62,43 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
+    TC{
+
     
-    int n;
-    int q;
-    cin >> n >> q;
-    string s;
-    cin >> s;
-    
-    for(int i=0;i<n;i++){
-        update(i+1,1,s[i]-'a');
-    }
-    while(q--){
-        int x ;
-        cin >> x;
-        if(x == 2 ){
-            int l,r;
-            cin >> l >> r;
-            int len = l-r+1;
-            int odd =0 ;
-            forn(k,26){
-                if((query(r,k) - query(l-1,k))%2 == 1)odd++;
-            }
-            if(odd<=1){
-                cout << "yes\n";
-            }else{
-                cout << "no\n";
-            }
-        }else{
-            int l;
-            char c;
-            cin >> l >> c;
-            update(l,1,c-'a');
-            update(l,-1,s[l-1]-'a');
-            s[l-1] = c;
+        int n;
+        cin >> n;
+        int m;
+        cin >> m;
+        int r,l;
+        cin >> l >> r;
+        G.assign(n,vector<int>());
+        vis.assign(n,0);
+        forn(i,m){
+            int x,y;
+            cin >> x>> y;
+            --x;--y;
+            G[x].PB(y);G[y].PB(x);
         }
+        LL sum =0;
+        forn(i,n){
+            currtotal =0 ;
+            if(vis[i] == 0){
+                dfs(i);
+            }else{
+                continue;
+            }
+            //trace(currtotal);
+            int req = currtotal -1;
+            if(l >=r){
+                sum += (l + (LL)req*r);
+            }else{
+                sum += l*(req+1);
+            }
+        }
+        
+        cout << sum << endl;
     }
-
-
+    
     
 }
 

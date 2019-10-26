@@ -39,69 +39,96 @@ const double eps = 1e-9;
 
 
 /////////////////////////////
-const int N = 123456;
-const int K = 26;
-int BIT[N][K];
+const int N = 223456;
 
+int BIT0[N];
+LL arr0[N];
 
-    
-void update(int x,int val,int pos){
-    
-    for(;x<N;x += x&-x){
-        BIT[x][pos]+= val;
+int BIT1[N];
+LL arr1[N];
+void update0(int x,int val){
+
+    for(;x<N;x+=x&-x){
+        BIT0[x]+=val;
     }
 }   
-int query(int x,int pos){
+int query0(int x){
     int sum = 0;
-    for(;x>0 ;x -= x&-x){
-        sum += BIT[x][pos];
+    for(;x >0 ;x -= x&-x){
+        sum += BIT0[x];
+    }
+    return sum;
+}
+void update1(int x,int val){
+
+    for(;x<N;x+=x&-x){
+        BIT1[x]+=val;
+    }
+}   
+int query1(int x){
+    int sum = 0;
+    for(;x >0 ;x -= x&-x){
+        sum += BIT1[x];
     }
     return sum;
 }
 
 
 int main(){
+    FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
     int n;
-    int q;
-    cin >> n >> q;
+    cin >> n;
     string s;
     cin >> s;
-    
-    for(int i=0;i<n;i++){
-        update(i+1,1,s[i]-'a');
-    }
-    while(q--){
-        int x ;
-        cin >> x;
-        if(x == 2 ){
-            int l,r;
-            cin >> l >> r;
-            int len = l-r+1;
-            int odd =0 ;
-            forn(k,26){
-                if((query(r,k) - query(l-1,k))%2 == 1)odd++;
+    int q;
+    cin >> q;
+    int len = s.size();
+    for(int i=0;i<len;i++){
+        if(s[i] == '1'){
+            if(i%2 == 0){
+                update0(i+1,1);
+            }else {
+                update1(i+1,1);
             }
-            if(odd<=1){
-                cout << "yes\n";
-            }else{
-                cout << "no\n";
-            }
-        }else{
-            int l;
-            char c;
-            cin >> l >> c;
-            update(l,1,c-'a');
-            update(l,-1,s[l-1]-'a');
-            s[l-1] = c;
         }
     }
-
-
+    while(q--){
+        int x;
+        cin >> x;
+        if(x == 0){
+            int l,r;
+            cin >> l >> r;
+            l++;r++;
+            int even = query0(r) -query0(l-1);
+            int odd =  query1(r) -query1(l-1);
+            if((r-1)%2 == 1){
+                swap(odd,even);
+            }
+            
+            //trace(l-1,r-1,even,odd);
+            int mod =(even%3 + odd%3 + odd%3)%3;
+            cout << mod << endl;
+        }else{
+            //cout << s << endl;
+            int l;
+            cin >> l;
+            l++;
+            if(s[l-1] == '0'){
+                if((l-1)%2 == 0){
+                    update0(l,1);
+                }else{
+                    update1(l,1);
+                }
+                s[l-1] = '1';
+            }
+            //cout << s << endl;
+        }
+    }
     
 }
 

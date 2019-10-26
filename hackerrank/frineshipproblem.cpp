@@ -27,7 +27,7 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define F first
 #define S second
 #define endl "\n"
-#define l() cout << endl;
+
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define TC int t; cin >> t;while(t--)
 #define forn(i,n) for(int i=0;i<n;i++)
@@ -39,24 +39,30 @@ const double eps = 1e-9;
 
 
 /////////////////////////////
-const int N = 123456;
-const int K = 26;
-int BIT[N][K];
 
 
-    
-void update(int x,int val,int pos){
-    
-    for(;x<N;x += x&-x){
-        BIT[x][pos]+= val;
+vector<int> par(123456),size(123456);
+
+void make(int n){
+    for(int i=0;i<n;i++){
+        par[i] = i;
+        size[i] =1;
     }
-}   
-int query(int x,int pos){
-    int sum = 0;
-    for(;x>0 ;x -= x&-x){
-        sum += BIT[x][pos];
+}
+int find(int v){
+    if(par[v] == v) return v;
+    else{
+        return par[v] = find(par[v]);
     }
-    return sum;
+}
+void merge(int a,int b){
+    a = find(a);
+    b = find(b);
+    if(a!=b){
+        if(size[a] < size[b])swap(a,b);
+        par[b] =a;
+        size[a]+= size[b];
+    }
 }
 
 
@@ -65,43 +71,29 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
-    int n;
-    int q;
-    cin >> n >> q;
-    string s;
-    cin >> s;
-    
-    for(int i=0;i<n;i++){
-        update(i+1,1,s[i]-'a');
-    }
-    while(q--){
-        int x ;
-        cin >> x;
-        if(x == 2 ){
-            int l,r;
-            cin >> l >> r;
-            int len = l-r+1;
-            int odd =0 ;
-            forn(k,26){
-                if((query(r,k) - query(l-1,k))%2 == 1)odd++;
-            }
-            if(odd<=1){
-                cout << "yes\n";
+    TC{
+        int n,m;
+        cin >> n >> m;
+        make(n);
+        LL fans = 0;
+        while(m--){
+            int x,y;
+            cin >> x >> y;
+            --x;--y;
+            if(find(x)!= find(y)){
+                x = find(x);
+                y = find(y);
+                //trace(x,y,size[x],size[y]);
+                fans +=(LL) (size[x]+size[y])*(size[x] + size[y]- 1);
+                merge(x,y);
             }else{
-                cout << "no\n";
+                x = find(x);
+                //trace(x,size[x]);
+                fans += (LL)size[x]*(size[x]-1);
             }
-        }else{
-            int l;
-            char c;
-            cin >> l >> c;
-            update(l,1,c-'a');
-            update(l,-1,s[l-1]-'a');
-            s[l-1] = c;
         }
+        cout << fans << endl;
     }
-
-
     
 }
 

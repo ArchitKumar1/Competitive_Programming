@@ -39,26 +39,27 @@ const double eps = 1e-9;
 
 
 /////////////////////////////
-const int N = 123456;
-const int K = 26;
-int BIT[N][K];
+const int N = 223456;
 
+int BIT[N];
+LL arr[N];
+void update(int x,int val){
 
-    
-void update(int x,int val,int pos){
-    
-    for(;x<N;x += x&-x){
-        BIT[x][pos]+= val;
+    for(;x<N;x+=x&-x){
+        BIT[x]+=val;
     }
 }   
-int query(int x,int pos){
+int query(int x){
     int sum = 0;
-    for(;x>0 ;x -= x&-x){
-        sum += BIT[x][pos];
+    for(;x >0 ;x -= x&-x){
+        sum += BIT[x];
     }
     return sum;
 }
-
+bool check(LL x){
+    string s = to_string(x);
+    return (s[0] == s[s.size()-1]);
+}
 
 int main(){
 #ifndef ONLINE_JUDGE
@@ -69,39 +70,25 @@ freopen("output.txt", "w", stdout);
     int n;
     int q;
     cin >> n >> q;
-    string s;
-    cin >> s;
-    
-    for(int i=0;i<n;i++){
-        update(i+1,1,s[i]-'a');
+    forn(i,n)cin >> arr[i];
+    forn(i,n){
+        update(i+1,check(arr[i]));
     }
     while(q--){
-        int x ;
+        int x;
         cin >> x;
-        if(x == 2 ){
+        if(x == 1){
             int l,r;
             cin >> l >> r;
-            int len = l-r+1;
-            int odd =0 ;
-            forn(k,26){
-                if((query(r,k) - query(l-1,k))%2 == 1)odd++;
-            }
-            if(odd<=1){
-                cout << "yes\n";
-            }else{
-                cout << "no\n";
-            }
+            cout << query(r) - query(l-1) << endl;
         }else{
-            int l;
-            char c;
-            cin >> l >> c;
-            update(l,1,c-'a');
-            update(l,-1,s[l-1]-'a');
-            s[l-1] = c;
+            int l,k;
+            cin >> l >> k;
+            update(l,check(k));
+            update(l,-check(arr[l-1]));
+            arr[l-1] = k;
         }
     }
-
-
     
 }
 
