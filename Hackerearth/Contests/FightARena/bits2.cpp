@@ -40,50 +40,24 @@ const double eps = 1e-9;
 
 ////////////////////////////
 
-const int N = 123456;
-int arr[N];
 
-
-void merge(int s,int m,int e){
-    int p = s;
-    int q = m+1;
-    int temp[e-s+1];
-    int k = 0;
-    while(p <=m || q <=e){
-        if(p > m){
-            temp[k++] = arr[q++];
-        }else if(q > e){
-            temp[k++] = arr[p++];
-        }else if(arr[p] > arr[q]){
-            temp[k++] = arr[q++];
-        }else{
-            temp[k++] = arr[p++];
-        }
-    }
-    forn(i,e-s+1){
-        arr[s+i] = temp[i];
-    }
-}
-void mergesort(int s,int e){
-    if(s< e){
-        int mid = (s+e)>>1;
-        mergesort(s,mid);
-        mergesort(mid+1,e);
-        merge(s,mid,e);
-    }
-}
 int main(){
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-   
-    int n;
-    cin >> n;
-    forn(i,n) cin >> arr[i];
-    mergesort(0,n-1);
-    forn(i,n){
-        cout << arr[i] << " ";
+    
+    vector<int> all;
+    int p = 0;
+    int base = 2;
+    for(int i=2;i<=30;i++){
+        all.PB(pow(base,i)-1);
+    }
+    TC{
+        int n;
+        cin >> n;
+
+        cout << upper_bound(ALL(all),n) - all.begin() << endl;
     }
     
     
