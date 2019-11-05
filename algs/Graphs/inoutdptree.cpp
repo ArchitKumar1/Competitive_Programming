@@ -40,7 +40,41 @@ const double eps = 1e-9;
 
 ////////////////////////////
 
+vector<vector<int>> G;
+vector<int> in,out;
+int fans = 0;
 
+void dfs1(int s,int par){
+    for(int c : G[s]){
+        if(c == par ) continue;
+        dfs1(c,s);
+        in[s] = max(in[s],1 +in[c]);
+    }
+}
+
+void dfs2(int s,int par){
+    int c1=-1,c2=-1;
+    for(int c : G[s]){
+        if(c == par) continue;
+        trace(s+1,c+1,in[c]);
+        if(in[c] >=c1){
+            swap(c1,c2);
+            c1= in[c];
+        }else if(in[c] >=c2){
+            c2 = in[c];
+        }
+    }
+    trace(s+1,c1,c2);
+    for(int c: G[s]){
+        int longest = c1;
+        if(c == par) continue;
+        if(in[c] == c1) longest = c2;
+        out[c] = max(2+in[longest],1+out[s]);
+        trace(out[s],s+1);
+        dfs2(c,s);
+    }
+    
+}
 
 int main(){
 #ifndef ONLINE_JUDGE
@@ -48,58 +82,38 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
     
-
-//    cin >> n;
-   
-//    forn(i,n){
-//        cin >> arr[i+1];
-//    }
-//    dfs(1);
-//     sort(ALL(inorder));
-//     int cnt = 0;
-//     vector<int> vis(n+1,0);
-//     for(int i=1;i<=n;i++){
-//         if(inorder[i-1].S  == i || vis[i] == 1){
-//             vis[i] =1;
-//         }
-//         else{
-//             int j = i;
-//             int cyclelen = 0;
-//             while(vis[j] == 0){
-//                 vis[j] =1;
-//                 j = inorder[i-1].S;
-//                 cyclelen++;
-//             }
-//             cnt+= cyclelen-1;
-//         }
-//     }
-//     cout << cnt << endl;
-
     int n,m;
-    cin >> n >> m;
-    vector<vector<pair<int,int > > > G(100);
-   
-    for(int i=0;i<m;i++){
-        int x,y,z;
-        cin >> x >> y >> z;
+    cin >> n;
+    G.resize(n);
+    in.assign(n,0);
+    out.assign(n,0);
+    forn(i,n-1){
+        int x,y;
+        cin >> x>> y;
         --x;--y;
-        G[x].emplace_back(y,z);
-        G[y].emplace_back(x,z);
+        G[x].PB(y);
+        G[y].PB(x);        
     }
-    vector<int > dista(n,0);
-    function<void(int,int,int)> dfs = [&](int s,int par,int dist){
-        cout << s << endl;
-        dista[s] = dist;
-        for(pair<int,int> c : G[s]){
+    dfs1(0,-1);
+    dfs2(0,-1);
+    int maxval =0 ;
+    int maxnode = -1;
 
-            if(c.first == par ) continue;
-            dfs(c.first,s,dist+3);
+    for(int i=0;i<n;i++){
+        if(max(in[i],out[i])> maxval){
+            maxval = max(in[i],out[i]);
+            maxnode = i;
         }
-    };
-    
-    dfs(0,-1,0);
-    cout << dista;
-    
+    }
+
+    cout << maxnode << " " << maxval << endl;
+    for(int i=0;i<n;i++){
+        trace(i,in[i],out[i]);
+    }
+    for(int i=0;i<n;i++){
+        cout << in[i] << " ";
+    }
+
 }
 
 

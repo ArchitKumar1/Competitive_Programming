@@ -47,58 +47,32 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
-
-//    cin >> n;
+    cout.precision(10);cout << fixed;
+    // int t;
+    // cin >> t;
+    // while(t--){
+    //    int n;
+    //    cin >> n;
+    //    string s[n];
+    //    for(int i=0;i<n;i++){
+    //        cin >> s[i];
+    //    }
+    //    auto xx = [&](string a,string b){
+    //        string c ="";
+    //        for(int i=0;i<10;i++){
+    //            c += '0'+ ((a[i] -'0') ^ (b[i]-'0'));
+    //        }
+    //        return c;
+    //    };
+    //    string base(10,'0');
+    //    for(int i=0;i<n;i++){
+    //        base = xx(base,s[i]);
+    //    }
+    //    cout << count(base.begin(),base.end(),'1') << endl;
+    cout << 1.0/pow((double)255656.0000,40);
    
-//    forn(i,n){
-//        cin >> arr[i+1];
-//    }
-//    dfs(1);
-//     sort(ALL(inorder));
-//     int cnt = 0;
-//     vector<int> vis(n+1,0);
-//     for(int i=1;i<=n;i++){
-//         if(inorder[i-1].S  == i || vis[i] == 1){
-//             vis[i] =1;
-//         }
-//         else{
-//             int j = i;
-//             int cyclelen = 0;
-//             while(vis[j] == 0){
-//                 vis[j] =1;
-//                 j = inorder[i-1].S;
-//                 cyclelen++;
-//             }
-//             cnt+= cyclelen-1;
-//         }
-//     }
-//     cout << cnt << endl;
 
-    int n,m;
-    cin >> n >> m;
-    vector<vector<pair<int,int > > > G(100);
-   
-    for(int i=0;i<m;i++){
-        int x,y,z;
-        cin >> x >> y >> z;
-        --x;--y;
-        G[x].emplace_back(y,z);
-        G[y].emplace_back(x,z);
-    }
-    vector<int > dista(n,0);
-    function<void(int,int,int)> dfs = [&](int s,int par,int dist){
-        cout << s << endl;
-        dista[s] = dist;
-        for(pair<int,int> c : G[s]){
-
-            if(c.first == par ) continue;
-            dfs(c.first,s,dist+3);
-        }
-    };
     
-    dfs(0,-1,0);
-    cout << dista;
     
 }
 

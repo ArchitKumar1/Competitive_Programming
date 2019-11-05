@@ -47,58 +47,42 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif    
-    
-
-//    cin >> n;
    
-//    forn(i,n){
-//        cin >> arr[i+1];
-//    }
-//    dfs(1);
-//     sort(ALL(inorder));
-//     int cnt = 0;
-//     vector<int> vis(n+1,0);
-//     for(int i=1;i<=n;i++){
-//         if(inorder[i-1].S  == i || vis[i] == 1){
-//             vis[i] =1;
-//         }
-//         else{
-//             int j = i;
-//             int cyclelen = 0;
-//             while(vis[j] == 0){
-//                 vis[j] =1;
-//                 j = inorder[i-1].S;
-//                 cyclelen++;
-//             }
-//             cnt+= cyclelen-1;
-//         }
-//     }
-//     cout << cnt << endl;
-
-    int n,m;
-    cin >> n >> m;
-    vector<vector<pair<int,int > > > G(100);
-   
-    for(int i=0;i<m;i++){
-        int x,y,z;
-        cin >> x >> y >> z;
-        --x;--y;
-        G[x].emplace_back(y,z);
-        G[y].emplace_back(x,z);
-    }
-    vector<int > dista(n,0);
-    function<void(int,int,int)> dfs = [&](int s,int par,int dist){
-        cout << s << endl;
-        dista[s] = dist;
-        for(pair<int,int> c : G[s]){
-
-            if(c.first == par ) continue;
-            dfs(c.first,s,dist+3);
+    vector<int> all(200);
+    all[0] = 0;
+    all[1] = 0;
+    for(int i=2;i<200;i++){
+        int prev = all[i-1];
+        int pos = -1;
+        for(int j = 0;j<=i-2;j++){
+            if(all[j] == prev){
+                pos = j;
+            }
         }
-    };
+        if(pos!=-1){
+            all[i] = i-1 -pos;
+        }else{
+            all[i] = 0;
+        }
+    }
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        n--;
+        int val = all[n];
+        int pos = 0;
+        for(int i=0;i<=n;i++){
+            if(all[i] == val){
+                pos++;
+            }
+        }
+        cout << pos << endl;
+    }
     
-    dfs(0,-1,0);
-    cout << dista;
+
+    
     
 }
 
