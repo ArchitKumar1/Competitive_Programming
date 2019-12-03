@@ -41,41 +41,51 @@ const double eps = 1e-9;
 
 
 
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
-    }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
-}
-
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
+    
+    
+   
+    int n;
+    cin >> n;
+    pair<int,int> a[n],b[n];
+    forn(i,n){
+        cin >> a[i].F  >> a[i].S;
+    }
+    forn(i,n){
+        cin >> b[i].F  >> b[i].S;
+    }
+    int cost[n][n];
+    auto cc = [&](pair<int,int> aa,pair<int,int>bb){
+        return (abs(aa.F - bb.F) + abs(aa.S - bb.S));
+    };
+    forn(i,n){
+        forn(j,n){
+            cost[i][j] = cc(a[i],b[i]);
+        }
+    }
+    int mask  = (1 << n);
+    int dp[mask];
+    forn(i,mask)dp[i] =1e9;
+    dp[0] = 0;
+    forn(i,mask){
+        int x = __builtin_popcount(i);
+        forn(j ,n){
+            if(!(i&(1 << j))){
+                dp[i|(1 <<j)] = min(dp[i|(1 <<j)],dp[i]+cost[x][j]);
+                //trace(dp[i|(1 <<j)],dp[i]+cost[x][j]);
+            }
+        }
+    }
+   // forn(i,mask)cout << dp[i] << endl;
+    cout << dp[mask-1] << endl;
 
+
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 }

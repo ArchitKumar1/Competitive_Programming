@@ -40,42 +40,32 @@ const double eps = 1e-9;
 //////////////////////////////////////////////
 
 
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
-    }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
-}
-
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
+    
+    int m,n;
+    cin >> m >> n;
+    priority_queue<int> pq;
+    forn(i,m){
+        int x;
+        cin >> x;
+        pq.push(x);
+    }
+    LL ans = 0;
+    while(n--){
+        ans += pq.top();
+        int temp = pq.top();
+        pq.pop();
+        pq.push(temp-1);
+    }
+    cout << ans << endl;
 
+
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 }

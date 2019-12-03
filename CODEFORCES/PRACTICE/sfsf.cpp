@@ -39,43 +39,34 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
-    }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
-}
-
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
-
+    int n,k;
+    cin >> n >> k;
+    int xarr[k],yarr[k];
+    forn(i,k){
+        cin >> xarr[i];
+    }
+    forn(i,k){
+        cin >> yarr[i];
+    }
+    int points[4][2] = {{1,n},{n,1},{1,1},{n,n}};
+    LL cnt = 0;
+    forn(i,k){
+        int temp = INT_MAX;
+        forn(j,4){
+            temp = min(temp,abs(xarr[i] - points[j][0]) +abs(yarr[i] - points[j][1]) );
+            
+        }
+        cnt+= temp;
+    }
+    cout <<cnt << endl;
+    
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 }

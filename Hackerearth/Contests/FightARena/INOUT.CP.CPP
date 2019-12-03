@@ -1,4 +1,5 @@
-#include<bits/stdc++.h>
+                                                                                                                                    #include<bits/stdc++.h>
+#pragma optimize("O3","-ofast")
 using namespace std;
 template<class T> ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
@@ -35,37 +36,19 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 const int mod = pow(10,9)+7;
 const double inf = 1e18;
 const LL linf = 2e18;
-const double eps = 1e-9;
+const double eps = 1e-12;
 
-//////////////////////////////////////////////
+////////////////////////////////
 
+const int N = 123456;
+vector<vector<int>> G(N);
+vector<int> in(N,0),out(N,0);
 
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
+void dfs(int s,int par){
+    for(int c : G[s]){
+        if(c == par ) continue;
+        
     }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
 }
 
 int main(){
@@ -74,8 +57,6 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
+
 
 }

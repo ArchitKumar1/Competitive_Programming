@@ -39,33 +39,28 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
-    }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
+LL pw(LL a,LL b,LL m){
+    LL res = 1;
+    while(b){
+        if(b&1){
+            res =(res*a)%m;
+        }
+        a = (a*a)%m;
+        b=b/2;
     }
     return res;
+}
+const int N = 223456;
+
+vector<LL> fact(N,1),invfact(N,1),pow2(N,1);
+void pre(){
+
+    for(int i=1;i<N;i++){
+        fact[i] = (fact[i-1]*i)%mod;
+        invfact[i] = pw(fact[i],mod-2,mod);
+        pow2[i] = pow2[i-1]*2;
+        pow2[i]%=mod;
+    }
 }
 
 int main(){
@@ -74,8 +69,23 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
+    
+    pre();
+    TC{
+        int n;
+        int arr[n];
+        forn(i,n){
+            cin >> arr[i];
+        }
+        LL fans = 0;
+        forn(i,n){
+            
+        }
+        
+    }
 
+
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 }

@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#pragma optimize("O3","-ofast")
 using namespace std;
 template<class T> ostream& operator<<(ostream &os,vector<T> V){
     os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
@@ -35,47 +36,55 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 const int mod = pow(10,9)+7;
 const double inf = 1e18;
 const LL linf = 2e18;
-const double eps = 1e-9;
-
+const double eps = 1e-12;
 //////////////////////////////////////////////
 
 
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
+struct point{
+    double x,y;
+};
+struct line {
+    double a,b,c;
+    line(point x,point y){
+        a = y.y - x.y;
+        b = x.x - y.x;
+        c = a*x.x + b*x.y;
     }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
+    double dist(point p){
+        return abs(1.0*(a*p.x  + b*p.y + c)/sqrt(a*a + b*b));
     }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
+    point getp(point p){
+        double temp = -1*(a*p.x  + b*p.y + c)/(a*a + b*b);
+        double x = temp * a + p.x; 
+        double y = temp * b + p.y; 
+        return {x,y}; 
     }
-    return res;
-}
-
+};
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
+cout.precision(10);cout << fixed;
+    int n;
+    cin >> n;
+    point init;
+    cin >> init.x >> init.y;
+    vector<point > all(n);
+    for(int i=0;i<n;i++){
+        cin >> all[i].x >> all[i].y;
+    }
+    double fans = 1e18;
+    point fpoint;
 
+    for(int i=0;i<n;i++){
+        line l = line(all[i],all[(i+1)%n]);
+        double dd = l.dist(init);
+        if(dd < fans ){
+            fans = dd;
+            fpoint = l.getp(init);
+        }
+    }
+    cout << fpoint.x << " " << fpoint.y << endl;
 }

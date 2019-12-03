@@ -40,42 +40,38 @@ const double eps = 1e-9;
 //////////////////////////////////////////////
 
 
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
-    }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
-}
-
 int main(){
-    
+    FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
+    
+    TC{
+        int n,p;
+        cin >> n >> p;
+        pair<int,int> forb[n];
+        forn(i,p){
+            cin >> forb[i].F >> forb[i].S;
+            forb[i].F--;
+            forb[i].S--;
+        }
+        int mask = (1 << n);
+        int total = 0;
+        for(int i = 0;i<mask;i++){
+            bool ok = 1;
+            forn(j,p){
+                if((i &(1 << forb[j].F)) >0 && (i &(1 << forb[j].S))>0){
+                    ok = 0;
+                }
+            }
+            total += ok;
+        }
+        cout << total-1 << endl;
+    }
 
+
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 }

@@ -40,42 +40,47 @@ const double eps = 1e-9;
 //////////////////////////////////////////////
 
 
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
-    }
-    reverse(ALL(s));
-    return s;
+void add(int &x,int y){
+    x += y;
+    x%=mod;
 }
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
-}
-
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
 
+    int n;
+    cin >> n;
+    vector<vector<int>> all(n+1);
+    vector<vector<int>> revall(n+1);
+    vector<int> sum(n+1,0);
+    for(int i=1;i<=n;i++){
+        for(int j = 1;j*j<=i;j++){
+            if(i%j == 0){
+                all[i].PB(j);
+                revall[j].PB(i);
+                add(sum[j],i);
+                if(i/j != j){
+                    all[i].PB(i/j);
+                    revall[j].PB(i/j);
+                    add(sum[i/j],i);
+                }
+            }
+        }
+    }
+    LL total = 0;
+    for(int i=1;i<=n;i++){
+        for(int c : all[i]){
+            trace(i,sum[c],c);
+            total += i*sum[c]/(__gcd(i,c));
+        }
+    }
+    for(int i=1;i<=n;i++){
+        cout << all[i] << endl;
+    }
+    cout << total << endl;
+    
+    return 0;
 }

@@ -39,43 +39,52 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
-    }
-    reverse(ALL(s));
-    return s;
+LL pow(LL a,LL b,LL m){
+     LL res = 1;
+     while(b){
+         if(b&1){
+             res = (res *a)%m;
+         }
+         a = (a*a)%m;
+         b>>=1;
+     }
+     return res;
 }
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
-}
-
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
+    
+    int t;
+    cin >> t;
+    forn(zz,t){
+        int n;
+        cin >> n;
+        int arr[n];
+        forn(i,n)cin >> arr[i];
+        LL maxans = INT_MIN;
+        int mask = (1 << n);
+        forn(i,mask){
+            LL prod = 1;
+            LL sum = 0;
+            int total = 0;
+            for(int j=0;j<n;j++){
+                if( ((1 << j)&i)){
+                    ++total;
+                    prod = (prod *arr[j])%mod;
+                    sum = (sum +arr[j])%mod;
+                }
+            }
+            //trace(prod,sum);
+            if(total >=2)maxans = max(maxans,(prod*pow(sum,mod-2,mod))%mod);
 
+        }
+        cout << "Case #" <<zz + 1 << ": " << maxans << endl;
+    }
+
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 }

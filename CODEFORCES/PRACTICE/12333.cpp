@@ -39,43 +39,45 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
+const int N =113456;
+const int R =1234;
+vector<vector<int>> G(N);
+set<int> s1[N];
+
+int dp1[N][R];
+int dp2[N][R];
+
+int A[R],B[R];
 
 
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
+void dfs(int s,int par){
+    
+    forn(i,R){
+        for(int c : G[s]){
+            if(c == par )continue;
+            dp[s][i] = 
+        }
     }
-    reverse(ALL(s));
-    return s;
 }
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
-}
-
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
-
+    
+    int n,r;
+    cin >> n >> r;
+    forn(I,n) cin >> A[I];
+    forn(i,n) cin >> B[i];
+    forn(i,n-1){
+        int x,y;cin >>x >> y;--x,--y;
+        G[x].PB(y);G[y].PB(x);
+        s1[x].insert(y); s1[y].insert(y);
+    }
+    dfs(0,-1);
+    
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 }

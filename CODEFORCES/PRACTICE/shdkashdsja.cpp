@@ -39,43 +39,69 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
+int n,k;
+const int N= 2e5;
+vector<vector<int>> G(N),cumc(N);
+vector<int> terms(N),allc(N);
+int fans = 0;
 
-
-string bi(int n){
-    string s = "";
-    while(n){
-        if(n&1)s+='1';
-        else s+='0';
-        n>>=1;
+void dfs1(int s,int par){
+    for(int c : G[s]){
+        if(c == par)continue;
+        dfs1(c,s);
+        allc[s] += allc[c];
+        if(allc[c]!=0)cumc[s].PB(allc[c]);
     }
-    reverse(ALL(s));
-    return s;
-}
-const int N= 1000;
-int bits[N];
-
-void add(int n,int val){
-    for(;n <N; n += n&-n){
-        trace(n,bi(n));
-        bits[n] += val;
-    }
-}
-int query(int n){
-    int res = 0;
-    for(;n>0 ;n-= (n&-n)){
-        res += bits[n];
-    }
-    return res;
+    if(terms[s] == 1)allc[s] +=1;
 }
 
+void dfs2(int s,int par){
+    if(terms[s] != 1){
+        if(s!=0){
+            cumc[s].PB(allc[0] - allc[s]);
+        }
+        //trace(s,cumc[s]);
+        int total = 0;
+        for(int x : cumc[s]){
+            total += x;
+        }
+        if(total >=3 && cumc[s].size()>=2){
+            fans += 1;
+        }
+    }
+    for(int c : G[s]){
+        if(c == par) continue;
+        dfs2(c,s);
+    }
+}
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    add(36,1);
-    add(11,1);
-    add(13,1);
 
+    cin >> n >> k;
+    forn(i,n-1){
+        int x,y;
+        cin >> x>> y;
+        x--;y--;
+        G[x].PB(y);
+        G[y].PB(x);
+    }
+    forn(i,k){
+        int x;
+        cin >> x;
+        terms[x-1] = 1;
+        fans +=1;
+    }
+    dfs1(0,-1);
+    dfs2(0,-1);
+    cout << fans << endl;
+
+    // forn(i,n){
+    //     trace(i+1,cumc[i]);
+    // }
+
+    return 0;
 }
