@@ -63,6 +63,21 @@ void pre(){
     }
 }
 
+
+vector<string> split(string a){
+    vector<string> words;
+    string temp ="";
+    for(char c: a){
+        if(c == ' '){
+            words.PB(temp);
+            temp = "";
+        }else{
+            temp+=c;
+        }
+    }
+    if(temp!="") words.PB(temp);
+    return words;
+}
 int main(){
     
 #ifndef ONLINE_JUDGE
@@ -70,18 +85,11 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
     
-    pre();
-    TC{
-        int n;
-        int arr[n];
-        forn(i,n){
-            cin >> arr[i];
-        }
-        LL fans = 0;
-        forn(i,n){
-            
-        }
-        
+    int t;
+    string a,x ;
+    getline(cin,a);
+    while(getline(stringstream(a),x,' ')){
+        cout << x << endl;
     }
 
 

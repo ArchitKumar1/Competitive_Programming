@@ -46,6 +46,16 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
     
+    int ans =1 ;
+    int n;
+    cin >> n;
+    int arr[n];
+    forn(i,n) cin >> arr[i];
+    for(int i=1;i<n;i++){
+        ans += (arr[i] < arr[i-1]);
+
+    }
+    cout << ans  << endl;
 
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';

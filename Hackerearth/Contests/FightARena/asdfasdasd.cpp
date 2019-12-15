@@ -39,33 +39,102 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
+const int N = 123456;
+vector<pair<int,string>> G[N];
+int cnt[N][26];
+
+const int L = 25;
+int timer = 0;
+vector<int> tin(N), tout(N);
+int up[N][L+1] ={0};
+
+void dfs1(int s,int par){
+    tin[s] = ++timer;
+    up[s][0] = par;
+    for (int i = 1; i <= L; ++i)
+        up[s][i] = up[up[s][i-1]][i-1];
+    for(pair<int,string> c : G[s]){
+        if(par == c.F) continue;
+        dfs1(c.F,s);
+    }
+    tout[s] = ++timer;
+}
+bool is_ancestor(int u, int v){
+    return tin[u] <= tin[v] && tout[u] >= tout[v];
+}
+
+int lca(int u, int v){
+    if (is_ancestor(u, v)) return u;
+    if (is_ancestor(v, u))  return v;
+    for (int i = L; i >= 0; --i) {
+        if (!is_ancestor(up[u][i], v))
+            u = up[u][i];
+    }
+    return up[u][0];
+}
+void dfs2(int s,int par,string pass = ""){
+  //  trace(pass);
+    for(char c : pass){
+        cnt[s][c-'a']+=1;
+    }
+    if(par!=-1){
+        for(int i=0;i<26;i++){
+            cnt[s][i] += cnt[par][i];
+        }
+    }
+    for(pair<int,string> c : G[s]){
+        if(par == c.F) continue;
+        dfs2(c.F,s,c.S);
+    }
+}
 int main(){
-    
+    FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
     
-    string a,b;
-    cin >> a >> b;
-    auto eval = [](string a){
-        int res = 0;
-        for(char c : a){
-            res = res*10;
-            res += (c-'0');
+    int n;
+    cin >> n;
+    forn(i,n-1){
+        int x,y;
+        cin >> x >> y;
+        --x;--y;
+        string s;
+        cin >> s;
+        G[x].EB(y,s);
+        G[y].EB(x,s);
+    }
+    dfs1(0,-1);
+    dfs2(0,-1);
+    
+    int q;
+    cin >> q;
+    while(q--){
+        int x,y;
+        cin >> x>> y;
+        --x;--y;
+        int LCA = lca(x,y);
+        vector<int> chars(26,0);
+        int total =0;
+        for(int i=0;i<26;i++){
+            chars[i] = cnt[x][i] + cnt[y][i] - 2*cnt[LCA][i];
+            total += chars[i];
         }
-        return res;
-    };
-    replace(a.begin(),a.end(),'6','5');
-    replace(b.begin(),b.end(),'6','5');
-    int ans1 = eval(a) + eval(b);
-
-    replace(a.begin(),a.end(),'5','6');
-    replace(b.begin(),b.end(),'5','6');
-    int ans2 = eval(a) + eval(b);
-    cout << ans1 <<  " "<< ans2 << endl;
-
-
+       // cout << chars;
+        int odd=0;
+        for(int i=0;i<26;i++){
+            if(chars[i]%2 == 1){
+                odd++;
+            }
+        } 
+        if(odd<=1){
+            cout << "YES" << endl;
+        }else{
+            cout << "NO" << endl;
+        }
+        
+    }
    
 
 }
