@@ -61,26 +61,7 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    LL inv6 = pow(6,mod-2,mod);
-    LL inv2 = pow(2,mod-2,mod);
-    TC{
-        LL n;
-        cin >> n;
-        LL ans = 0;
-        LL min1,max1;
-        LL m = n-1;
-        max1 = mul(mul(mul(m,m+1),2*m+1),inv6);
-        LL total = n*(n-1)/2;
-        LL q  = total/n;
-        LL rem = total%n;
-
-        LL l = n -rem;
-        LL h = rem;
-        min1 = mul(h,mul(q+1,q+1));
-        min1 += mul(l,mul(q,q));
-        cout << min1 << " "<< max1 << endl;
-    }   
-
+    
 
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
