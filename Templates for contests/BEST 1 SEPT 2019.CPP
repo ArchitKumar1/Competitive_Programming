@@ -1,12 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-template<class T> ostream& operator<<(ostream &os,vector<T> V){
-    os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";
-}
-template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){
-    return os<<"("<<P.first<<","<<P.second<<")";
-}
+template<class T> ostream& operator<<(ostream &os,vector<T> V){os<<"[ ";for(auto v:V)os<<v<<" ";return os<<"]";}
+template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){return os<<"("<<P.first<<","<<P.second<<")";}
+
 #define TRACE
 #ifdef TRACE
 #define trace(...) __f(#__VA_ARGS__,__VA_ARGS__)
@@ -35,47 +32,42 @@ void __f(const char* names,Arg1&& arg1,Args&&... args){
 #define endl "\n"
 
 typedef pair<int,int>PII;
+typedef vector<PII> VPII;
 typedef vector<int> VI;
 typedef vector<VI> VVI;
-typedef vector<PII> VPII;
+typedef vector<LL> VL;
+typedef vector<VL> VLL;
+typedef pair<LL,LL>PLL;
+typedef vector<PLL> VPLL;
 
-const int mod = pow(10,9) +7;
+int mod = pow(10,9) +7;
+
+template <typename T,typename U>void add_mod(T &a, U b){a = (LL)a+b;a = a%mod;}
+template <typename T,typename U>void mul_mod(T &a, U b){a = ((LL)a*b)%mod;}
+template <typename T> T add_mod(vector<T> v){LL sum=0; for(T x : v) sum = (sum + x)%mod;return (T)sum;}
+template <typename T> T mul_mod(vector<T> v){ LL sum = 0;for(T x : v)sum = (sum * x)%mod;return (T)sum;}
+
+
 const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
-const int max_p = 100 + 5;
-const int max_c = 10;
-
-int dp[max_p][1024];
-vector<int> caps[max_p];
-int allmask;
 
 
-int solve(int mask,int i){
-    if(mask == allmask){
-        return 1;
-    }
-    if(i > 100) return 0;
-    int ways = solve(mask,i+1);
-    int size = caps[i].size();
-    for(int j= 0;j<size;j++){
-        if(mask & ( 1 << caps[i][j])) continue;
-        else{
-            ways+= solve(mask | (1 << caps[i][j]),i+1);
-            ways%= mod;
-        }
-    }
-    return ways;
-}
 int main(){
 FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
-    
-    
-    
+    // cout << "OK";
+    // mod = 121437;
+    // LL x  = 2e9;
+    // LL y = 3e9;
+    // LL z = 5e9;
+    // cout << add_mod(vector<LL>{x,y,z});
+
+    trace("HEllo");
+
 
 }
