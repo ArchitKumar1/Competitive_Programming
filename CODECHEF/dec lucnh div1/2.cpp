@@ -40,66 +40,60 @@ const double eps = 1e-9;
 //////////////////////////////////////////////
 
 
-const int K = 30;
-const int N = 1.1e5;
-
-LL arr[N];
-LL sparse1[N][K],sparse2[N][K];
-
-LL solve1(int l,int r){
-    int k = floor(log2(r-l+1));
-    return max(sparse1[l][k],sparse1[r - (1<<k)+1][k]);
-}
-LL solve2(int l,int r){
-    int k = floor(log2(r-l+1));
-    return min(sparse2[l][k],sparse2[r - (1<<k)+1][k]);
+int count(string &s){
+    int cnt = 0;
+    for(int i=0;i+1<s.size();i++){
+        if(s[i] == s[i+1]) cnt++;
+    }
+    return cnt;
 }
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
-#endif   
-    cout.precision(1);
-    cout << fixed;
-    int n;
-    cin >> n;
-    
-    forn(i,n){
-        cin >> arr[i];
-    }
-    for(int i=0;i<n;i++){
-        sparse1[i][0]= arr[i];
-        sparse2[i][0]= arr[i];
-    }
-    for(int j =1;j<K;j++){
-        for(int i =0;i+(1<<j)-1 <n;i++){
-            sparse1[i][j] = max(sparse1[i][j-1] ,sparse1[i+(1<<(j-1))][j-1]);
-            sparse2[i][j] = min(sparse2[i][j-1] ,sparse2[i+(1<<(j-1))][j-1]);
+#endif 
+FASTIO  
+    // TC{
+    // string s;
+    // cin >> s;
+    // string tt ;
+    // tt =s;
+    // int n = s.length();
+    // int total =0;
+    // for(int i =0;i<n;i++){
+    //     for(int j=i;j<n;j++){
+    //        // trace(i,j);
+    //         for(int z =i;z<=j;z++){
+    //             if(s[z] == '0') s[z] = '1';
+    //             else s[z] = '0';
+    //         }
+    //       //  trace(i,j,s);
+    //      //   trace(count(s));
+    //         total +=count(s);
+    //         s = tt;
+    //     }
+        
+    // }
+    // cout << total << endl;
+    // }
+    TC{
+        string s;
+        cin >> s;
+        LL cnt = count(s);
+
+        LL fans = 0;
+        LL same = 0;
+        LL diff = 0;
+        LL n = s.length();
+        for(LL i=0;i+1<s.size();i++){
+            if(s[i] == s[i+1]) same +=1;
+            else diff +=1;            
         }
+        cnt = same;
+        LL total = (LL)cnt*n*(n+1)/2 - (same*(same-1)) + diff*(diff-1) +2*diff - 2*same;
+        cout << total << endl;
     }
-    int t;
-    cin >> t;
-    while(t--){
-        int l,r;
-        cin >> l >> r;
-        double leftmax =0,rightmax = 0;
-        if(l==0)leftmax =0;
-        else leftmax = solve1(0,l-1);
-        if(r == n-1) rightmax = 0;
-        else rightmax = solve1(r+1,n-1);
-
-        double middlemax = solve1(l,r);
-        double middlemin = solve2(l,r);
-
-     //  trace(leftmax,middlemax,middlemin,rightmax);
-   //   cout << leftmax <<endl;
-
-        cout << max({leftmax+middlemin,(middlemax+middlemin)/2,rightmax + middlemin}) << endl;
-
-    }
-
-
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
 #endif

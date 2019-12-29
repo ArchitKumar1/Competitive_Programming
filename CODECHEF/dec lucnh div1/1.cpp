@@ -39,20 +39,17 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-
-const int K = 30;
-const int N = 1.1e5;
-
-LL arr[N];
-LL sparse1[N][K],sparse2[N][K];
-
-LL solve1(int l,int r){
-    int k = floor(log2(r-l+1));
-    return max(sparse1[l][k],sparse1[r - (1<<k)+1][k]);
-}
-LL solve2(int l,int r){
-    int k = floor(log2(r-l+1));
-    return min(sparse2[l][k],sparse2[r - (1<<k)+1][k]);
+vector<LL> get(LL n){
+    vector<LL> all;
+    for(LL i =1;i*i<=n;i++){
+        if(n%i == 0){
+            all.PB(i);
+            if(n/i != i){
+                all.PB(n/i);
+            }
+        }
+    }
+    return all;
 }
 int main(){
     
@@ -60,45 +57,27 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    cout.precision(1);
-    cout << fixed;
-    int n;
-    cin >> n;
-    
-    forn(i,n){
-        cin >> arr[i];
-    }
-    for(int i=0;i<n;i++){
-        sparse1[i][0]= arr[i];
-        sparse2[i][0]= arr[i];
-    }
-    for(int j =1;j<K;j++){
-        for(int i =0;i+(1<<j)-1 <n;i++){
-            sparse1[i][j] = max(sparse1[i][j-1] ,sparse1[i+(1<<(j-1))][j-1]);
-            sparse2[i][j] = min(sparse2[i][j-1] ,sparse2[i+(1<<(j-1))][j-1]);
+FASTIO
+    TC{
+        LL a,m;
+        cin >> a >> m;
+        vector<LL> all = get(m);
+        vector<LL> ans ;
+        for(LL c : all){
+            LL bacha = m-c;
+            if(bacha%a != 0) continue;
+            bacha = bacha/a;
+            if(bacha%c == 0){
+                if(bacha!=0)ans.PB(bacha);
+            } 
         }
+        //cout << all << endl;
+       sort(ALL(ans));
+        cout << ans.size() << endl;
+        for(LL c : ans){
+            cout << c << " ";
+        }cout << endl;
     }
-    int t;
-    cin >> t;
-    while(t--){
-        int l,r;
-        cin >> l >> r;
-        double leftmax =0,rightmax = 0;
-        if(l==0)leftmax =0;
-        else leftmax = solve1(0,l-1);
-        if(r == n-1) rightmax = 0;
-        else rightmax = solve1(r+1,n-1);
-
-        double middlemax = solve1(l,r);
-        double middlemin = solve2(l,r);
-
-     //  trace(leftmax,middlemax,middlemin,rightmax);
-   //   cout << leftmax <<endl;
-
-        cout << max({leftmax+middlemin,(middlemax+middlemin)/2,rightmax + middlemin}) << endl;
-
-    }
-
 
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';

@@ -40,65 +40,31 @@ const double eps = 1e-9;
 //////////////////////////////////////////////
 
 
-const int K = 30;
-const int N = 1.1e5;
-
-LL arr[N];
-LL sparse1[N][K],sparse2[N][K];
-
-LL solve1(int l,int r){
-    int k = floor(log2(r-l+1));
-    return max(sparse1[l][k],sparse1[r - (1<<k)+1][k]);
-}
-LL solve2(int l,int r){
-    int k = floor(log2(r-l+1));
-    return min(sparse2[l][k],sparse2[r - (1<<k)+1][k]);
-}
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
-#endif   
-    cout.precision(1);
-    cout << fixed;
-    int n;
-    cin >> n;
+#endif 
+FASTIO  
     
-    forn(i,n){
-        cin >> arr[i];
-    }
-    for(int i=0;i<n;i++){
-        sparse1[i][0]= arr[i];
-        sparse2[i][0]= arr[i];
-    }
-    for(int j =1;j<K;j++){
-        for(int i =0;i+(1<<j)-1 <n;i++){
-            sparse1[i][j] = max(sparse1[i][j-1] ,sparse1[i+(1<<(j-1))][j-1]);
-            sparse2[i][j] = min(sparse2[i][j-1] ,sparse2[i+(1<<(j-1))][j-1]);
+
+    TC{
+        string s;
+        cin >> s;
+        string ans = "";
+        int n = s.length();
+        for(int i=0;i<n;i++){
+            int cnt = 1;
+            while(i+1<n && s[i] == s[i + 1]){
+                cnt += 1;
+                i++;
+            }
+            ans += (s[i] + to_string(cnt));
         }
+       // cout << ans << endl;
+        cout << (ans.length() < s.length() ? "YES" : "NO") << endl;
     }
-    int t;
-    cin >> t;
-    while(t--){
-        int l,r;
-        cin >> l >> r;
-        double leftmax =0,rightmax = 0;
-        if(l==0)leftmax =0;
-        else leftmax = solve1(0,l-1);
-        if(r == n-1) rightmax = 0;
-        else rightmax = solve1(r+1,n-1);
-
-        double middlemax = solve1(l,r);
-        double middlemin = solve2(l,r);
-
-     //  trace(leftmax,middlemax,middlemin,rightmax);
-   //   cout << leftmax <<endl;
-
-        cout << max({leftmax+middlemin,(middlemax+middlemin)/2,rightmax + middlemin}) << endl;
-
-    }
-
 
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
