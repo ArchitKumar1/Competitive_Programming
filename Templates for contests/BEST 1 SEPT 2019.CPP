@@ -52,21 +52,58 @@ const int inf = 2e9;
 const LL linf = 2e18;
 const double eps = 1e-9;
 
+int m ,n;
 
+bool check(VVI &arr){
+    map<int,int> m1[n];
+    map<int,int> m2[n];
+    bool ok = 1;
+    forn(i,n)forn(j,n){
+        ok&= ((arr[i][j]<=m) && (arr[i][j]>=1));
+        m1[i][arr[i][j]] += 1;
+        m2[j][arr[i][j]] += 1;  
+    }
+    
+    //cout << x << endl;
+    if(!ok) return false;
+    forn(i,n){
+        forn(j,m){
+            ok&= ((m1[i][j+1] >= 1) ||( m2[i][j+1] >= 1));
+        }
+    }
+    if(!ok) return false;
+    return true;
+    
+}
+void solve(int pos,VVI arr){
+    if(check(arr) == 1){
+        trace(arr);
+        return;
+    }
+    if(pos == n*n){
+        return ;
+    }
+    int i = pos/n;
+    int j = pos%n;
+    for(int k = 1;k<=m;k++){
+        arr[i][j] = k;
+        solve(pos+1,arr);
+    }
 
+}
 int main(){
 FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
-    // cout << "OK";
-    // mod = 121437;
-    // LL x  = 2e9;
-    // LL y = 3e9;
-    // LL z = 5e9;
-    // cout << add_mod(vector<LL>{x,y,z});
-
+    
+    
+    cin >> n;
+    m = 2*n-1;
+    VVI arr(n,VI(n,0));
+    
+    solve(0,arr);
     trace("HEllo");
 
 
