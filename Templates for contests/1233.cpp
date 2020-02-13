@@ -89,6 +89,19 @@ const double eps = 1e-9;
 //-----------------------------------------------------------------------------
 
 
+int solve(int n){
+	if(n/10 == 0){
+		return n;
+	}else{
+		int ans = 0;
+		while(n){
+			ans += n%10;
+			n/=10;
+		}
+		return ans;
+	}
+
+}
 
 int main(){
 FASTIO
@@ -97,29 +110,29 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
     
-    TC{
-		LL n;
-		LL c;
-		cin >> c >> n;
-		LL low = 1;
-		LL high =( 1e18- n*(n-1)/2 +100)/n;
-		LL ans = 0;
-		trace(low,high);
-		while(low <=high){
-			LL mid = (low+high)/2;
-			LL expr =mid*n + n*(n-1)/2;
-			if(expr <= c){
-				ans = mid;
-				low = mid+1;
-			}else{
-				high = mid-1;
-			}
-		}
-		LL fans = c - ans*n  - n*(n-1)/2;
-		if(ans == 0){
-			cout << c << endl;
+   	int n;
+	cin >> n;
+	int arr[n+1];
+	int q;
+	cin >> q;
+	forn(i,n) cin >> arr[i+1];
+	forn(i,n) arr[i+1] = solve(arr[i+1]);
+	vector<int> small(arr,arr+n);
+	vector<int> big(arr,arr+n);
+	sort(small.begin(),small.end());
+	sort(big.rbegin(),big.rend());
+	for(int i = 1;i<=n;i++){
+		small[i] += small[i-1];
+		big[i] += big[i-1];
+	}
+	while(q--){
+		int type,k;
+		cin >> type >> k;
+		if(type  == 1){
+			cout << big[k] << endl;
 		}else{
-			cout << fans << endl;
+			cout << small[k] << endl;
 		}
 	}
+			
 }

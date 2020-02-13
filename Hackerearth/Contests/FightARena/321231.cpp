@@ -108,6 +108,41 @@ const double eps = 1e-9;
 
 //-----------------------------------------------------------------------------
 
+struct rect{
+    vector<pair<int,int>> vert;
+    void add(pair<int,int> p){
+        vert.push_back(p);
+    }
+    void perf(){
+        
+        vert.emplace_back(vert[0].first,vert[1].second );
+        vert.emplace_back(vert[1].first,vert[0].second );
+        swap(vert[1],vert[2]);
+    }
+};
+
+bool inter(rect &a,rect &b){
+    if(a.vert[2].first < b.vert[0].first && a.vert[2].second > b.vert[0].second)return 0;
+    if(b.vert[2].first < a.vert[0].first && b.vert[2].second > a.vert[0].second)return 0;
+    return 1;
+}
+const int N = 12345;
+
+vector<int> par;
+vector<int> size;
+
+int find(int v){
+    if(v == par[v]) return v;
+    else return par[v] = find(par[v]);
+}
+void merge(int a,int b){
+    a = find(a);
+    b = find(b);
+    if(a == b) return ;
+    if(size[a] < size[b]) swap(a,b);
+    par[b] = a;
+    size[a] += size[b];
+}
 
 
 int main(){
@@ -117,32 +152,63 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
     
-    int n;
-    cin >> n;
-    int arr[n];
-    
-    int brr[n];
-    forn(i,n) cin >> brr[i];
-    forn(i,n) cin >> arr[i];
+    TC{
+        int n,w,l;
+        cin >> n >> w >> l;
 
-    deque<int> dq;
-    forn(i,n){
-        dq.push_back(brr[i]);
-    }
-    int cnt = 0;
-    int totaltime = 0;
-    while(cnt <n){
-        int curr = arr[cnt];
-        trace(dq.front());
-        while(dq.front()!=curr){
-            trace(dq.front(),curr);
-            dq.push_back(dq.front());
-            totaltime+=1;
-            dq.pop_front();
+        rect all[n];
+        pair<int,int> temp;
+        forn(i,n){
+            cin >> temp.first >> temp.second;
+            all[i].add(temp);
+            cin >> temp.first >> temp.second;
+            all[i].add(temp);
+            all[i].perf();
         }
-        totaltime+=1;
-        dq.pop_front();
-        cnt+=1;
+        par.assign(n+1,0);
+        size.assign(n+1,0);
+        forn(i,n){
+            par[i] = i;
+        }
+        int ans = 0;
+        // forn(i,n){
+        //     cout << all[i].vert << endl;
+        // }
+        
+        for(int i = 0;i<n;i++){
+            for(int  j =i+1;j<n;j++){
+                if(inter(all[i],all[j])){
+                    merge(i,j);
+                }
+            }
+        }
+        set<int> num_comps;
+        forn(i,n){
+            int  p =find(i);
+            num_comps.insert(p);
+        }
+
+        vector<pair<int,int>> parts;
+        for(auto it= num_comps.begin();it!=num_comps.end();it++){
+            int p = *it;
+            int min_left = INT_MAX;
+            int max_right = INT_MIN;
+            for(int i=0;i<n;i++){
+                int rect_par = find(i);
+                if(rect_par == p){
+                    min_left = min(min_left,all[i].vert[0].first);
+                    max_right = max(max_right,all[i].vert[2].first);
+                }
+            }
+            parts.emplace_back(min_left,max_right);
+        }
+        for(pair<int,int> p : parts){
+            if( p.first > 0 || p.second < w) {
+                ans += 0;
+            }else{
+                ans +=1;
+            }
+        }
+        cout << ans << endl;
     }
-    cout << totaltime << endl;
 }

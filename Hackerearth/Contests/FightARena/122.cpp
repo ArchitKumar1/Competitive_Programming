@@ -88,33 +88,9 @@ const double eps = 1e-9;
 
 //-----------------------------------------------------------------------------
 
+const int N = 1234;
 
-void solve(){
-    int n;
-    cin >> n;
-    int arr[n];
-    forn(i,n) cin >> arr[i];
-    sort(arr,arr+n);
-    int ans = 0;
-    LL sum = 0;
-    LL temp =0;
-    int cnt =0;
-    int tcnt =0;
-
-    forn(i,n){
-        sum += arr[i];
-        cnt+=1;
-        if(sum > temp && cnt > tcnt){
-            ans +=1;
-            
-            tcnt = cnt;
-            cnt = 0;
-            temp = sum;
-            sum = 0;
-        }
-    }
-    cout << ans << endl;
-}
+int dp[N+1][N+1];
 
 int main(){
 FASTIO
@@ -122,11 +98,14 @@ FASTIO
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
-    
-    int t = 1;
-  // cin >> t;
-    while(t--){
-        solve();
+
+    for(int i =1;i<=N;i++){
+        dp[i][i] = 1;
     }
-    //check("archit","chitop");
+    for(int i = 1;i<=N;i++){
+        for(int j = i-1;j>=1;j--){
+            dp[i][j] = dp[i][j+1];
+            dp[i][j] += 
+        }
+    }
 }

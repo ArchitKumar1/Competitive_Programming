@@ -52,19 +52,62 @@ FASTIO
     TC{
         string s;
         cin >> s;
-        string ans = "";
-        int n = s.length();
-        for(int i=0;i<n;i++){
-            int cnt = 1;
-            while(i+1<n && s[i] == s[i + 1]){
-                cnt += 1;
-                i++;
+       
+        stack<char> st;
+        string pref;
+        for(char c : s){
+            if(st.size() <=1){
+                st.push(c);
             }
-            ans += (s[i] + to_string(cnt));
+            else{
+                char first = st.top();st.pop();
+                if(st.top() == c){
+                    
+                    pref += first;
+                    continue;
+                }else{
+                    st.push(first);
+                    st.push(c);
+                }
+            }
         }
-       // cout << ans << endl;
-        cout << (ans.length() < s.length() ? "YES" : "NO") << endl;
+        vector<char> seq;
+        map<char,int> m1;
+        
+        while(st.size()){
+            seq.PB(st.top());
+            m1[st.top()]+=1;
+            st.pop();
+        }
+       
+        bool ok = 1;
+        
+        for(auto x : m1){
+            if(x.S >=2){
+                cout << "NO" << endl;
+               ok = 0;
+            }
+        }
+        reverse(ALL(seq));
+        trace(seq);
+        trace(pref);
+        for(char c : pref){
+            m1[c] +=1;
+        }
+
+        if(ok == 0)continue;
+        cout << "YES" << endl;
+        cout << pref;
+        for(char c : seq){
+            cout << c;
+        }
+        for(char c = 'a';c<='z';c++){
+            if(m1[c]!=1)cout << c;
+        }
+        cout << endl;
+        //A:
     }
+    
 
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';

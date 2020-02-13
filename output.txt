@@ -1,1 +1,18 @@
-2 1 5 3 
+seq : [ a ]
+pref : bb
+YES
+bbabcdefghijklmnopqrstuvwxyz
+seq : [ c a ]
+pref : edo
+YES
+edocabfghijklmnpqrstuvwxyz
+NO
+seq : [ a b c d a ]
+pref : 
+seq : [ z ]
+pref : xty
+YES
+xtyzabcdefghijklmnopqrsuvw
+NO
+seq : [ a b c d e f g h i j k l m n o p q r s t u v w x y z a ]
+pref : 

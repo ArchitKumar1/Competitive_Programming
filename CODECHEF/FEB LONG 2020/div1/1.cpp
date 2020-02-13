@@ -53,48 +53,44 @@ const LL linf = 2e18;
 const double eps = 1e-9;
 
 
-int days[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 
-bool leap(int y){
-	if(y%4 != 0) return 0;
-	if(y%100!=0) return 1;
-	if(y%400!=0) return 0;
-	return 1;
-}
 int main(){
 FASTIO
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif
-    int N = 3000;
-	vector<int> year(N,0);
-	int d = 3;
-	for(int i = 1;i<N;i++){
-
-		if(leap(i)){
-			if(d == 5){
-				year[i] +=1;
-			}
-			d = (d+2)%7;
-		}else{
-			if(d == 5 || d == 6){
-				year[i] +=1;
-			}
-			d = (d + 1)%7;
-		}
-	}
-	
-	for(int  i =2000;i<=2030;i++){
-		trace(i,year[i]);
-	}
-	for(int  i =1;i<N;i++){
-		cout << year[i];
-		if(i%400 == 0) cout << endl;
-	}
-
-
-
-	
+    
+    int t ;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        int k;
+        cin >> k;
+        int arr[n];
+        bool ok = 1;
+        for(int i = 0;i<n;i++)cin >> arr[i];
+        for(int i = 0;i<n;i++){
+            if(k%arr[i] != 0){
+                cout << "YES ";
+                for(int j = 0;j<n;j++){
+                    if(i!=j){
+                        cout << "0 ";
+                    }else{
+                        int q = k/arr[i];
+                        cout << q+1 << " ";
+                    }
+                }
+                cout << endl;
+                ok = 0;
+                break;
+            }
+        }      
+        if(ok == 1){
+            cout << "NO " << endl;
+        }
+        
+    }
 
 }
