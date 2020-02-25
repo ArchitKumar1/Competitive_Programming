@@ -6,8 +6,8 @@ template<class T> ostream& operator<<(ostream &os,vector<T> V){
 template<class L,class R> ostream& operator<<(ostream &os,pair<L,R> P){
     return os<<"("<<P.first<<","<<P.second<<")";
 }
-#define TRACE
-#ifdef TRACE
+
+#ifndef ONLINE_JUDGE
 #define trace(...) __f(#__VA_ARGS__,__VA_ARGS__)
 template<typename Arg1>
 void __f(const char* name,Arg1&& arg1){
@@ -39,7 +39,32 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
+struct point{
+    double x,y;
+    point(): x(0),y(0){};
+    point(double x,double y): x(x),y(y){};
+};
+struct line{
+    double m,c;
+    line() : m(0),c(0){};
+    line(point a,point b){
+        (*this).m = (b.y - a.y)/(b.x - a.x);
+        (*this).c = a.y - a.x * (*this).m;
+    }
+};
 
+
+double get_y(double x,double y,line l){
+     double ydown =  (x * l.m + l.c); 
+     return y - ydown;
+}
+
+
+const int N = 123;
+
+point left1[N];
+point right1[N];
+bool vis[N];
 int main(){
     
 #ifndef ONLINE_JUDGE
@@ -48,66 +73,65 @@ freopen("output.txt", "w", stdout);
 #endif 
 FASTIO  
     
-
-    TC{
-        string s;
-        cin >> s;
-       
-        stack<char> st;
-        string pref;
-        for(char c : s){
-            if(st.size() <=1){
-                st.push(c);
-            }
-            else{
-                char first = st.top();st.pop();
-                if(st.top() == c){
-                    
-                    pref += first;
-                    continue;
-                }else{
-                    st.push(first);
-                    st.push(c);
-                }
-            }
-        }
-        vector<char> seq;
-        map<char,int> m1;
-        
-        while(st.size()){
-            seq.PB(st.top());
-            m1[st.top()]+=1;
-            st.pop();
-        }
-       
-        bool ok = 1;
-        
-        for(auto x : m1){
-            if(x.S >=2){
-                cout << "NO" << endl;
-               ok = 0;
-            }
-        }
-        reverse(ALL(seq));
-        trace(seq);
-        trace(pref);
-        for(char c : pref){
-            m1[c] +=1;
-        }
-
-        if(ok == 0)continue;
-        cout << "YES" << endl;
-        cout << pref;
-        for(char c : seq){
-            cout << c;
-        }
-        for(char c = 'a';c<='z';c++){
-            if(m1[c]!=1)cout << c;
-        }
-        cout << endl;
-        //A:
+    cout << setprecision(4);
+    cout << fixed;
+    double X;
+    cin >> X;
+    double Y = 1e9;
+    int n;
+    cin >> n;
+    forn(i,n){
+        cin >> left1[i].x >> left1[i].y >> right1[i].x >> right1[i].y;
     }
-    
+    bool ok = 1;
+    double fans = 1;
+    int t = 10;
+    while(ok){
+        vector<int> prob;
+        forn(i,n){
+            if(left1[i].x <= X && right1[i].x >=X  && vis[i]==0){
+                prob.PB(i);
+            }
+        }
+        trace(prob);
+        if(prob.size() == 0){
+            break;
+        }
+        
+        double distance = INT_MAX;
+        int max_p = 0;
+        forn(i,prob.size()){
+            line curr_line = line(left1[prob[i]],right1[prob[i]]);
+            
+           double  curr_dist = get_y(X,Y,curr_line);
+           if(curr_dist < distance) {
+               distance =curr_dist;
+               max_p = prob[i]; 
+           }
+        }
+        trace(distance,max_p);
+        vis[max_p] = 1;
+        if( right1[max_p].y <= 0  || left1[max_p].y <=0){
+            line curr_line = line(left1[prob[max_p]],right1[prob[max_p]]);
+            fans = -curr_line.c /curr_line.m;
+            
+            ok = 0;
+            break;
+        }
+        point down;
+        if(left1[max_p].y < right1[max_p].y){
+            down = left1[max_p];
+        }else{
+            down = right1[max_p];
+        }
+        Y = down.y;
+        X = down.x;
+        trace(X,Y);
+
+    }
+    cout << (int)X << endl;
+
+
 
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';

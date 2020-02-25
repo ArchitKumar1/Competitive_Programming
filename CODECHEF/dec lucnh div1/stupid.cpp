@@ -49,25 +49,7 @@ freopen("output.txt", "w", stdout);
 FASTIO  
     
 
-    TC{
-        int n;
-        cin >> n;
-        int arr[n];
-        forn(i,n) cin >> arr[i];
-        LL fans = 0;
-        int mi = INT_MAX;
-        int MIN[n];
-        forn(i,n){
-            mi = min(mi,arr[i]);
-            MIN[i] =mi;
-        }
-        int prev = 0;
-        for(int i = n-1;i>=0;i--){
-            fans +=  (LL)(i+1) *(MIN[i]-prev);
-            prev = MIN[i];
-        }
-        cout << fans << endl;
-    }
+   
 
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';

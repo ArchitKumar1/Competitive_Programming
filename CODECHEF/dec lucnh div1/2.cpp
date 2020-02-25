@@ -39,14 +39,7 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-
-int count(string &s){
-    int cnt = 0;
-    for(int i=0;i+1<s.size();i++){
-        if(s[i] == s[i+1]) cnt++;
-    }
-    return cnt;
-}
+const int N
 int main(){
     
 #ifndef ONLINE_JUDGE
@@ -54,46 +47,8 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif 
 FASTIO  
-    // TC{
-    // string s;
-    // cin >> s;
-    // string tt ;
-    // tt =s;
-    // int n = s.length();
-    // int total =0;
-    // for(int i =0;i<n;i++){
-    //     for(int j=i;j<n;j++){
-    //        // trace(i,j);
-    //         for(int z =i;z<=j;z++){
-    //             if(s[z] == '0') s[z] = '1';
-    //             else s[z] = '0';
-    //         }
-    //       //  trace(i,j,s);
-    //      //   trace(count(s));
-    //         total +=count(s);
-    //         s = tt;
-    //     }
-        
-    // }
-    // cout << total << endl;
-    // }
-    TC{
-        string s;
-        cin >> s;
-        LL cnt = count(s);
 
-        LL fans = 0;
-        LL same = 0;
-        LL diff = 0;
-        LL n = s.length();
-        for(LL i=0;i+1<s.size();i++){
-            if(s[i] == s[i+1]) same +=1;
-            else diff +=1;            
-        }
-        cnt = same;
-        LL total = (LL)cnt*n*(n+1)/2 - (same*(same-1)) + diff*(diff-1) +2*diff - 2*same;
-        cout << total << endl;
-    }
+    
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
 #endif

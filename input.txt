@@ -1,6 +1,5 @@
-5
-ababa
-codedoca
-abcda
-zxzytyz
-abcdefghijklmnopqrstuvwxyza
+4
+10 23
+1 12
+5 26
+12 11

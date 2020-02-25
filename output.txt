@@ -1,18 +1,12 @@
-seq : [ a ]
-pref : bb
-YES
-bbabcdefghijklmnopqrstuvwxyz
-seq : [ c a ]
-pref : edo
-YES
-edocabfghijklmnpqrstuvwxyz
-NO
-seq : [ a b c d a ]
-pref : 
-seq : [ z ]
-pref : xty
-YES
-xtyzabcdefghijklmnopqrsuvw
-NO
-seq : [ a b c d e f g h i j k l m n o p q r s t u v w x y z a ]
-pref : 
+ans : 11 | gen_pali(ans) : 11
+ans+k : 34 | gen_pali(ans+k) : 242
+232
+ans : 2 | gen_pali(ans) : 1
+ans+k : 14 | gen_pali(ans+k) : 44
+33
+ans : 6 | gen_pali(ans) : 5
+ans+k : 32 | gen_pali(ans+k) : 222
+212
+ans : 12 | gen_pali(ans) : 22
+ans+k : 23 | gen_pali(ans+k) : 131
+121

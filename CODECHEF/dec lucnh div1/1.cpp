@@ -39,17 +39,51 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-vector<LL> get(LL n){
-    vector<LL> all;
-    for(LL i =1;i*i<=n;i++){
-        if(n%i == 0){
-            all.PB(i);
-            if(n/i != i){
-                all.PB(n/i);
-            }
+const int N = 1.3e6;
+
+bool pali(int n){
+    string s = to_string(n);
+    string t = s;
+    reverse(ALL(t));
+    return s == t;
+}
+string odd(string s){
+    string t = s;
+    reverse(ALL(t));
+    t.erase(t.begin());
+    string ans = s + t;
+    return ans;
+}
+string even(string s){
+    string t = s;
+    reverse(ALL(t));
+    string ans = s + t;
+    return ans;
+}
+string gen_pali(LL n){
+    if(n<=10) return to_string(n-1);
+    string s = to_string(n);
+    if(s[0] == '1' && s[1] == '0'){
+        string half = "9";
+        for(int i =2;i<s.size();i++){
+            half += s[i];
         }
+        return odd(half);
     }
-    return all;
+    if(s[0] == '1'){
+        string half = "";
+        for(int i =1;i<s.size();i++){
+            half += s[i];
+        }
+        return even(half);
+    }else{
+        string half = "";
+        half += (s[0] -1); 
+        for(int i =1;i<s.size();i++){
+            half += s[i];
+        }
+        return odd(half);
+    }
 }
 int main(){
     
@@ -59,24 +93,29 @@ freopen("output.txt", "w", stdout);
 #endif   
 FASTIO
     TC{
-        LL a,m;
-        cin >> a >> m;
-        vector<LL> all = get(m);
-        vector<LL> ans ;
-        for(LL c : all){
-            LL bacha = m-c;
-            if(bacha%a != 0) continue;
-            bacha = bacha/a;
-            if(bacha%c == 0){
-                if(bacha!=0)ans.PB(bacha);
-            } 
+        LL n;
+        cin >> n;
+        LL k;
+        cin >> k;
+
+        LL l = 0;
+        LL h = 1e9;
+
+        LL ans = -1;
+        while(l<=h){
+            LL mid = (l+h)/2;
+            string palin = gen_pali(mid);
+            LL num = stoll(palin);
+            if(num >= n){
+                ans = mid;
+            h = mid-1;
+            }else{
+                l = mid+1;
+            }
         }
-        //cout << all << endl;
-       sort(ALL(ans));
-        cout << ans.size() << endl;
-        for(LL c : ans){
-            cout << c << " ";
-        }cout << endl;
+        trace(ans,gen_pali(ans));
+        trace(ans+k,gen_pali(ans+k));
+        cout << gen_pali(ans+k -1) << endl;
     }
 
 #ifndef ONLINE_JUDGE
