@@ -39,7 +39,6 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-const int N
 int main(){
     
 #ifndef ONLINE_JUDGE
@@ -48,7 +47,17 @@ freopen("output.txt", "w", stdout);
 #endif 
 FASTIO  
 
+    int n,m,k,s;
+    cin >> n >> m >> k >> s;
+    vector<int> d(n),p(n);
+    forn(i,n) cin >> d[i];
+    forn(i,n) cin >> p[i];
+    vector<pair<int,int>> cost(m);
+    forn(i,m) cin >> cost[i].F >> cost[i].S;
     
+    
+
+
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
 #endif

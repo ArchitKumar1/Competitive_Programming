@@ -1,12 +1,7 @@
-ans : 11 | gen_pali(ans) : 11
-ans+k : 34 | gen_pali(ans+k) : 242
-232
-ans : 2 | gen_pali(ans) : 1
-ans+k : 14 | gen_pali(ans+k) : 44
-33
-ans : 6 | gen_pali(ans) : 5
-ans+k : 32 | gen_pali(ans+k) : 222
-212
-ans : 12 | gen_pali(ans) : 22
-ans+k : 23 | gen_pali(ans+k) : 131
-121
+9
+8
+11
+8
+8
+8
+9

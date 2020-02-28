@@ -148,10 +148,6 @@ freopen("output.txt", "w", stdout);
     for(int j =1;j<LOGN;j++){
         for(int i = 1;i<=n;i++){
             p[i][j] = p[p[i][j-1]][j-1];
-        }
-    }
-    for(int j =1;j<LOGN;j++){
-        for(int i = 1;i<=n;i++){
             me[i][j] = max(me[i][j-1],me[p[i][j-1]][j-1]);
         }
     }
