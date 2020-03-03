@@ -39,45 +39,101 @@ const double eps = 1e-9;
 
 //////////////////////////////////////////////
 
-string bin(int n){
-    string ans ="";
-    while(n){
-        ans += ('0' + (n&1));
-        n = n/2;
+
+const int N = 1.1e5;
+
+LL arr[N];
+LL BIT[N][20];
+
+int get(int x){
+    set<char> s;
+    string ss = to_string(x);
+    for(char c : ss){
+        s.insert(c);
     }
-    reverse(ALL(ans));
-    return ans;
+    return s.size();
 }
-int comp(int a,int b){
-    int cnt = 0;
-    while(b){
-        ++cnt;
-        int u = a^b;
-        int v = a&b;
-        a = u;
-        b = 2*v;
+void add(int i,int val,int d){
+    while(i<N){
+        BIT[i][d] += val;
+        i += i&-i;
     }
-    return cnt;
 }
-int randint(){
-    return (pow(2,15)*((rand())%(int)(pow(2,15))) + rand()%(int)pow(2,15));
+LL query(int i,int d){
+    LL res = 0;
+    while(i>0){
+        res = res+BIT[i][d];
+        i-=i&-i;
+    }
+    return res;
 }
+
+
+
 int main(){
     
 #ifndef ONLINE_JUDGE
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-    srand(time(NULL));
-    int T = 1e7;
-    int ans = INT_MIN;
-    while(T--){
-        ans = max(ans,comp(randint(),randint()));
-    }
-    cout << ans << endl;
+    
 
-   #ifndef ONLINE_JUDGE
-        cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
-    #endif
+    int n;
+    cin >> n;
+    for(int i=1;i<=n;i++){
+        cin >> arr[i];
+        add(i,1,get(arr[i]));
+    }
+    int q;
+    cin >> q;
+    while(q--){
+        string s;
+        LL u,v;
+        cin >> s >> u >> v;
+ 
+        if(s == "MAX"){
+            int ans = 0;
+            int d = 0;
+            for(int i = 0;i<20;i++){
+                int t = query(v,i) - query(u-1,i);
+                if(t > 0) {
+                    ans = t;
+                    d  = i;
+                }
+            }
+            cout <<d << " " << ans <<  endl;
+
+        }else if(s == "MIN"){
+            int ans = 0;
+            int d = 0;
+            for(int i = 19;i>=0;i--){
+                int t = query(v,i) - query(u-1,i);
+                if(t > 0) {
+                    ans = t;
+                    d  = i;
+                }
+            }
+            cout <<d << " " << ans <<  endl;
+        }else if(s == "REP"){
+             add(u,-1,get(arr[u]));
+             arr[u] = v;
+             arr[u]%= mod;
+             add(u,1,get(arr[u]));
+        }else if(s == "ADD"){
+            add(u,-1,get(arr[u]));
+             arr[u] = (v+arr[u])%mod;
+             add(u,1,get(arr[u]));
+        }else{
+            add(u,-1,get(arr[u]));
+             arr[u] = (v*arr[u])%mod;
+             add(u,1,get(arr[u]));
+        }
+    }
+    
+   
+
+#ifndef ONLINE_JUDGE
+    cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
+#endif
 
 }
