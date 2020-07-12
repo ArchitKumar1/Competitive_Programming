@@ -48,27 +48,19 @@ const double eps = 1e-9;
 const int LOGN = 20;
 //////////////////////////////////////////////
 
-int n1,n2,K1,K2;
 
-int dp[101][101][11][11];
+const int N = 1e5+10;
+int arr[N];
 
-int solve(int i,int j,int k1,int k2){
-    if(dp[i][j][k1][k2] != -1) return dp[i][j][k1][k2];
-    if(i == n1 && j == n2) {
-        return dp[i][j][k1][k2] = 1;
+int solve(int i,int g){
+    if(g =0){
+        if(arr[i] > arr[i+1]){
+            return solve(i,g^1);
+        }else{
+            
+        }
     }
-    int ans = 0;
-    if(i+1<=n1){
-        if(k1+1<=K1) (ans += solve(i+1,j,k1+1,0))%=mod;
-    }
-    if(j+1<=n2){
-        if(k2+1<=K2) (ans += solve(i,j+1,0,k2+1))%=mod;
-    }
-    return dp[i][j][k1][k2] = ans;
-
 }
-
-
 
 int main(){
     
@@ -76,11 +68,12 @@ int main(){
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
-TC{
-    memset(dp,-1,sizeof(dp));
-    cin >> n1 >> n2 >> K1 >> K2;
-    cout << solve(0,0,0,0) << endl;
-}
+
+    int n;
+    cin >> n;
+    forn(i,n) cin >> arr[i];
+
+
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
 #endif
