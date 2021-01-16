@@ -87,6 +87,32 @@ string to_bin(T num){
 
 
 
+VVI G1,G2;
+int n;
+int ans = 0;
+
+
+
+void dfs(int s,int par,int val){
+    for(int c : G[s]){
+
+    }
+}
+
+void __Solve__(){
+    int n;
+    cin >> n;
+    forn(i,n-1){
+        int x,y;
+        cin >> x >> y;
+        G1[x].PB(y);
+        G1[x].PB(y);
+    }
+    dfs1(1,0);
+    dfs2(2,0);
+    cout << ans << endl;
+   
+}
 
 signed main()
 {
@@ -98,11 +124,11 @@ signed main()
     srand(chrono::high_resolution_clock::now().time_since_epoch().count());
 	cout<<fixed<<setprecision(8);
 
-   int tt = 1;
-    cin >> tt;
-   while(tt--){
-       solve();
-   }
+    int tt = 1;
+    //cin >> tt;
+    while(tt--){
+        __Solve__();
+    }
 #ifndef ONLINE_JUDGE
 	cerr<<"Time elapsed: "<<(double)(clock()-clk)/CLOCKS_PER_SEC<<"  seconds" << "\n";
 #endif

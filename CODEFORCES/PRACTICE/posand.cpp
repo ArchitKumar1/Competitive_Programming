@@ -40,14 +40,6 @@ const double eps = 1e-9;
 //////////////////////////////////////////////
 
 
-
-
-int ask(int l,int r){
-    cout << "? " << l << " " << r << endl;
-    int a; cin >> a;return a;
-}
-
-
 int main(){
     
 #ifndef ONLINE_JUDGE
@@ -55,36 +47,15 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 #endif   
     
-    int n;
-    cin >> n;
-    
-    int l = 1;
-    int r = n;
-    int ans[n+1] = {0};
-
-    for(;r>1;r--){
-        ans[r] = ask(l,r);
+    TC{
+        int n;
+        cin >> n;
+        cout << n-1 << endl;
+        for(int i = n-1;i>=2;i--){
+            cout << i<< " " <<i+1 << endl;
+        }
+        cout << "2 1" << endl;
     }
-    int ttt;
-    ttt = ask(2,3);
-
-    cout << "! ";
-
-    int fans[n+1];
-    for(int i = n;i>=3;i--){
-        fans[i] = ans[i] - ans[i-1];
-    }
-    fans[1] = ans[3] - ttt;
-    fans[2] = ans[n];
-    for(int i =1;i<=n;i++){
-        if(i!=2)
-            fans[2]-=fans[i];
-    }
-    for(int i = 1;i<=n;i++){
-        cout << fans[i] << " ";
-    }
-    cout << endl;
-
 #ifndef ONLINE_JUDGE
     cerr << "Time: " << double(clock()) / CLOCKS_PER_SEC << '\n';
 #endif
